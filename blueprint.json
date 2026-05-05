@@ -1,0 +1,48 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"preferredVersions": {
+		"php": "8.2",
+		"wp": "7.0-RC1"
+	},
+	"features": {
+		"networking": true
+	},
+	"landingPage": "/wp-admin/plugins.php",
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+		{
+			"step": "installPlugin",
+			"pluginZipFile": {
+				"resource": "url",
+				"url": "https://github.com/WordPress/ai/archive/refs/heads/trunk.zip"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "installPlugin",
+			"pluginZipFile": {
+				"resource": "url",
+				"url": "https://github.com/ryanwelcher/wcpt-2026-content-summarization/archive/refs/heads/trunk.zip"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "activateTheme",
+			"themeName": "twentytwentyfive"
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"blogname": "WC Portugal 2026 Workshop"
+			}
+		}
+	]
+}
