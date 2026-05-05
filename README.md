@@ -1,54 +1,60 @@
 # Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
+
 ### WordCamp Portugal 2026
 
 ## Pre-Workshop Setup Checklist
 
 To avoid wifi bottlenecks on the day, please complete this **before you arrive**:
 
-1. **WordPress Studio** — Download and install [WordPress Studio](https://developer.wordpress.com/studio/). Create a new site and have it running.
+1. **WordPress Studio** — Download and install [WordPress Studio](https://developer.wordpress.com/studio/).
 
-2. **WordPress 7.0 RC** — The AI Building Blocks ship in WordPress 7.0. In Studio, open your site settings and switch to the latest 7.0 RC.
+2. **Create a site from the blueprint** — Download the [`blueprint.json`](https://raw.githubusercontent.com/wptrainingteam/wcpt-2026-ai-workshop/trunk/blueprint.json) file from this repository. In Studio, click **Add site → Start from a blueprint → Choose blueprint file** and select the downloaded file.
+
+   This will automatically install WordPress 7.0 RC2, the AI plugin, and the workshop plugin with everything activated and ready to go.
 
 3. **Node.js v20+** — Recommended via [NVM](https://github.com/nvm-sh/nvm):
+
    ```bash
    nvm install 20 && nvm use 20
    ```
 
-4. **Clone this repo** into your site's `wp-content/plugins/` directory:
-   ```bash
-   cd /path/to/your/studio/site/wp-content/plugins/
-   git clone https://github.com/ryanwelcher/wcpt-2026-content-summarization
-   ```
+4. **Install dependencies** in the workshop plugin directory:
 
-5. **Install dependencies:**
    ```bash
-   cd wcpt-2026-content-summarization
+   cd /path/to/your/studio/site/wp-content/plugins/wcpt-2026-ai-workshop
    npm install
    composer install
    ```
 
-6. **Activate the plugins** via WP-CLI or the WordPress admin:
-   ```bash
-   wp plugin activate wcpt-2026-content-summarization ai
-   ```
-
-7. **Configure an API key** under **Settings → AI → Providers**. Any of the following will work:
+5. **Configure an API key** under **Settings → AI → Providers**. Any of the following will work:
    - [Anthropic](https://console.anthropic.com/) (Claude)
    - [OpenAI](https://platform.openai.com/)
    - [Ollama](https://ollama.com/) running locally — `ollama pull llama3.2`
    - [LM Studio](https://lmstudio.ai/) with a model downloaded
 
-**No local setup?** Use the one-click [WP Playground demo](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/ryanwelcher/wcpt-2026-content-summarization/trunk/blueprint.json) — nothing to install.
+**Not using Studio?** For any other local WordPress installation you will need:
+
+- **[WordPress Beta Tester](https://wordpress.org/plugins/wordpress-beta-tester/)** — install and activate it, then go to **Tools → Beta Testing** and switch to the WordPress 7.0 RC channel to update your site to 7.0 RC2.
+- **[AI plugin](https://wordpress.org/plugins/ai/)** — install and activate from the WordPress plugin directory.
+- **This workshop plugin** — clone the repo into your `wp-content/plugins/` directory and activate it:
+
+  ```bash
+  cd /path/to/your/site/wp-content/plugins/
+  git clone https://github.com/wptrainingteam/wcpt-2026-ai-workshop
+  wp plugin activate wcpt-2026-ai-workshop
+  ```
+
+**No local setup?** Use the one-click [WP Playground demo](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/wptrainingteam/wcpt-2026-ai-workshop/trunk/blueprint.json) — nothing to install.
 
 ---
 
 ## Welcome!
 
-Thanks for joining me today! We have 3.5 hours together, and we'll move at a steady pace — but there's plenty of room for questions along the way.
+Thanks for joining me today! We have 4 hours together, and we'll move at a steady pace — but there's plenty of room for questions along the way.
 
 ## What Are We Building?
 
-WordPress 7.0 ships three new AI building blocks:
+WordPress 7.0 RC2 ships three new AI building blocks:
 
 - **PHP AI Client** — a provider-agnostic PHP SDK for talking to AI models
 - **Abilities API** — a standard registry for discoverable, REST-accessible AI capabilities
@@ -71,15 +77,16 @@ There are 5 guided sections followed by a 2-hour hackathon. Each section builds 
 For each section, `code-reference/step-N/` contains the complete state of the code at the end of that step — use it freely if you fall behind or want a clean start.
 
 You can jump to any step using git:
+
 ```bash
 git checkout step-2-abilities
 ```
 
-| Tag | State |
-|-----|-------|
-| `step-1-scaffold` | Plugin stub + first AI request working |
-| `step-2-abilities` | Ability registered, callable via REST |
-| `step-3-js` | Full Block Editor integration |
-| `step-4-final` | Complete plugin |
+| Tag                | State                                  |
+| ------------------ | -------------------------------------- |
+| `step-1-scaffold`  | Plugin stub + first AI request working |
+| `step-2-abilities` | Ability registered, callable via REST  |
+| `step-3-js`        | Full Block Editor integration          |
+| `step-4-final`     | Complete plugin                        |
 
 Let's go! → [Section 1: Tour the AI Experiments Plugin](./workshop-outline/section-1.md)
