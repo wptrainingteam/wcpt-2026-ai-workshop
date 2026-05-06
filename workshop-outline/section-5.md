@@ -14,14 +14,14 @@ The WordPress Abilities API is MCP-compatible by design. Every ability you regis
 /wp-json/wp-abilities/v1/mcp
 ```
 
-That means our `ai/summarization` ability can be called by an AI agent — not just by a human clicking a button in the editor.
+That means our `wcpt/summarization` ability can be called by an AI agent — not just by a human clicking a button in the editor.
 
 ## Live Demo
 
 Watch as Claude Desktop:
 
 1. Connects to the WordPress site via MCP
-2. Discovers the available tools (including our `ai/summarization` ability)
+2. Discovers the available tools (including our `wcpt/summarization` ability)
 3. Calls the ability on a real post — no UI interaction required
 4. Returns the summary, which the agent can use however it needs to
 

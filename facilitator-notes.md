@@ -93,10 +93,28 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 - `executeAbility()` from `@wordpress/abilities` handles the REST call, authentication, and error handling — much cleaner than raw `apiFetch`
 - `insertBlock` at position `0` puts it at the top of the content, matching what the reference plugin does
 
+**The "weird" enqueue + dynamic import — be ready to explain this clearly:**
+
+This is the part that confuses people. Walk through it deliberately:
+
+- `@wordpress/scripts` builds our file as a *classic* script, not an ES module. But `@wordpress/abilities` is published *only* through the WordPress script module loader — it isn't a classic script and webpack can't resolve it at build time.
+- To make `@wordpress/abilities` available we have to enqueue our file with `wp_enqueue_script_module()` and declare `@wordpress/abilities` as a script-module dependency. So we end up with a classic-script body enqueued through the script-module system. Weird, but correct.
+- On the JS side we use a top-level `await import( /* webpackIgnore: true */ '@wordpress/abilities' )`. The `webpackIgnore` comment tells webpack "don't resolve this at build time — leave it alone." The browser then fetches it at runtime via the script module loader.
+- We hook on `admin_enqueue_scripts` (not `enqueue_block_editor_assets`) because script-module enqueueing for this scenario only registers correctly on that hook today. The `get_current_screen()` check keeps us off non-edit admin pages.
+- The two `wp_enqueue_script_module( '@wordpress/core-abilities' / '@wordpress/abilities' )` shim calls go away once 7.0 ships and these auto-register.
+
+If someone asks "why not just import it normally?" the one-liner is: *the package isn't classic-script-compatible and webpack can't see it; the script module loader is the only way in.*
+
 **Common sticking points:**
 - Button appears but nothing happens → check browser console for JS errors, likely a build wasn't triggered (`npm start` not running)
-- `executeAbility` is undefined → `@wordpress/abilities` not in `package.json` — run `npm install @wordpress/abilities`
+- `executeAbility` is undefined → either the dynamic `await import()` failed (check the Network tab for a 404 on `@wordpress/abilities`) or they kept a static `import { executeAbility } from '@wordpress/abilities'` and webpack tried to resolve it at build time. Confirm they're using the `await import( /* webpackIgnore: true */ ... )` pattern.
+- Webpack build error mentioning `@wordpress/abilities` not found → the `/* webpackIgnore: true */` comment is missing or malformed (must be inside the `import()` parentheses, not on a preceding line).
+- Browser console shows a module resolution error for `@wordpress/abilities` → script module loader path didn't run. Confirm the enqueue uses `wp_enqueue_script_module()` (not classic `wp_enqueue_script`), is hooked on `admin_enqueue_scripts` (not `enqueue_block_editor_assets`), and the `@wordpress/core-abilities` + `@wordpress/abilities` shim enqueues are present.
+- Code on `enqueue_block_editor_assets` "looks right" but nothing loads → wrong hook for this scenario; move to `admin_enqueue_scripts` with the screen check.
 - Block inserts but is empty → `serialize( blocks )` returned empty string — confirm there's actual content in the editor
+
+**Fallback if script modules misbehave on the day:**
+If an attendee's environment refuses to load the script module, point them to the `apiFetch` alternative in the `<details>` block at the end of `section-4.md`. It uses classic script enqueue and calls the REST endpoint directly — same behaviour, no module loader required.
 
 ---
 
