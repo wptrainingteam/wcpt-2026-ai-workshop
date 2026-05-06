@@ -56,12 +56,12 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 **Goal:** Working plugin that makes a live AI request.
 
 **Talking points:**
-- `wp_ai_get_client()` abstracts all providers — the same code works with Anthropic, OpenAI, Google
+- `wp_ai_client_prompt()` abstracts all providers — the same code works with Anthropic, OpenAI, Google
 - The guard clause (`function_exists`) is the right pattern for APIs still landing in core
 - "We're removing the test function after confirming it works — this is scaffolding, not production code"
 
 **Common sticking points:**
-- `wp_ai_get_client` returns `null` → WP 7.0 RC not active, or the function isn't available yet
+- `wp_ai_client_prompt` not found / fatal error → WP 7.0 RC not active, or the function isn't available yet
 - WP_Error returned → API key invalid or provider unreachable
 - Composer autoloader issues → run `composer install` again from the plugin root
 

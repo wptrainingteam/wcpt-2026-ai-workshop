@@ -86,8 +86,7 @@ function wcpt_execute_summarization( $input ) {
 		$content
 	);
 
-	$client   = wp_ai_get_client();
-	$response = $client->text()->generate( $prompt );
+	$response = wp_ai_client_prompt( $prompt )->generate_text();
 
 	if ( is_wp_error( $response ) ) {
 		return $response;

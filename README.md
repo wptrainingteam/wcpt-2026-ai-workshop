@@ -53,11 +53,11 @@ Thanks for joining us today! We have 4 hours together, and we'll move at a stead
 
 ## What Are We Building?
 
-WordPress 7.0 RC2 ships three new AI building blocks:
+WordPress 7.0 RC2 brings together three AI building blocks for the first time:
 
-- **PHP AI Client** — a provider-agnostic PHP SDK for talking to AI models
-- **Abilities API** — a standard registry for discoverable, REST-accessible AI capabilities
-- **MCP support** — abilities auto-exposed as tools for AI agents like Claude and Cursor
+- **PHP AI Client** — new in 7.0 core: a provider-agnostic PHP SDK for talking to AI models (`wp_ai_client_prompt()`)
+- **Abilities API** — server-side PHP shipped in 6.9; the JavaScript client API (`@wordpress/abilities`) is new in 7.0
+- **MCP support** — provided by the [`mcp-adapter`](https://github.com/WordPress/mcp-adapter) package (bundled with the AI plugin), which exposes registered abilities as MCP tools for agents like Claude and Cursor
 
 We're going to build a simplified **Content Summarization** plugin from scratch. It's the same feature that ships in the official [WordPress/ai](https://github.com/WordPress/ai) reference plugin — stripped down so every line is understandable.
 

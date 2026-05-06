@@ -1,6 +1,6 @@
 # Section 2 — Scaffold the Plugin & Connect to the AI API
 
-Time to write code. We'll create the plugin scaffold and make our first live AI request using `wp_ai_get_client()` — WordPress 7.0's provider-agnostic PHP AI Client.
+Time to write code. We'll create the plugin scaffold and make our first live AI request using `wp_ai_client_prompt()` — WordPress 7.0's provider-agnostic PHP AI Client.
 
 Reference: [PHP AI Client](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-ai-client/)
 
@@ -23,7 +23,7 @@ Reference: [PHP AI Client](https://developer.wordpress.org/block-editor/referenc
 2. Below the header, add a guard so the plugin exits gracefully on older WordPress versions:
 
 ```php
-if ( ! function_exists( 'wp_ai_get_client' ) ) {
+if ( ! function_exists( 'wp_ai_client_prompt' ) ) {
 	return;
 }
 ```
@@ -50,10 +50,9 @@ function wcpt_test_ai_connection() {
 		return;
 	}
 
-	$client   = wp_ai_get_client();
-	$response = $client->text()->generate(
+	$response = wp_ai_client_prompt(
 		'Say hello to the WordCamp Portugal 2026 attendees in exactly one sentence.'
-	);
+	)->generate_text();
 
 	if ( is_wp_error( $response ) ) {
 		printf(

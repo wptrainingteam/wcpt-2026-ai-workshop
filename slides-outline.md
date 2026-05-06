@@ -32,11 +32,11 @@
 
 ---
 
-## The Three Building Blocks (WordPress 7.0)
+## The Three Building Blocks
 
-- **PHP AI Client** — `wp_ai_get_client()` — talk to any AI provider with one API
-- **Abilities API** — `wp_register_ability()` — standard, discoverable, REST-accessible capabilities
-- **MCP** — auto-exposed to AI agents — no extra code
+- **PHP AI Client** (new in core 7.0) — `wp_ai_client_prompt()` — talk to any AI provider with one API
+- **Abilities API** — `wp_register_ability()` — PHP/REST in 6.9, JavaScript client API in 7.0
+- **MCP** — via the `mcp-adapter` package (bundled with the AI plugin) — abilities auto-exposed to agents
 
 ---
 
@@ -96,13 +96,12 @@
 ### The Plugin Header
 
 - `Requires at least: 7.0`
-- Guard clause: `function_exists( 'wp_ai_get_client' )`
+- Guard clause: `function_exists( 'wp_ai_client_prompt' )`
 
-### wp_ai_get_client()
+### wp_ai_client_prompt()
 
 ```php
-$client   = wp_ai_get_client();
-$response = $client->text()->generate( 'Your prompt here' );
+$response = wp_ai_client_prompt( 'Your prompt here' )->generate_text();
 ```
 
 - Provider-agnostic — works with Anthropic, OpenAI, Google
