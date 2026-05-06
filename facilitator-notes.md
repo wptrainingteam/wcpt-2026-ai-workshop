@@ -117,7 +117,7 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 
 ### Break (10 min)
 
-Announce the hackathon suggestions before the break so attendees can think about what they want to build. Point them to `section-6.md` and `challenge.md`.
+Announce the hackathon suggestions before the break so attendees can think about what they want to build. Point them to `workshop-outline/section-6.md`.
 
 ---
 
