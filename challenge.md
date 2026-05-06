@@ -3,9 +3,27 @@
 You have 2 hours. Use the same three-layer pattern from the workshop to build something new.
 
 **The pattern:**
-1. Register an ability in PHP (`wp_register_ability`)
-2. Call it from the block editor in JS (`executeAbility`)
-3. MCP exposure is free once the ability is registered
+1. Build the prompt with the PHP AI Client (`wp_ai_client_prompt( $prompt )->generate_text()`) inside an execute callback
+2. Register that callback as an ability (`wp_register_ability`) with input/output schemas
+3. Call the ability from the block editor in JS (`executeAbility` from `@wordpress/abilities`)
+
+## Where to Start
+
+Keep building inside the same workshop plugin you've been working in.
+
+- Create a **new PHP file** in `includes/` for your ability (e.g. `includes/excerpt.php`) and `require_once` it from `plugin.php` alongside `summarizer.php`. Keeps each ability self-contained.
+- Add the editor UI in `src/index.js`. You can reuse the existing `PluginPostStatusInfo` slot, or pick a different SlotFill that fits your feature better — see the [Block Editor SlotFills reference](https://developer.wordpress.org/block-editor/reference-guides/slotfills/) (e.g. `PluginDocumentSettingPanel` for a sidebar panel, `PluginSidebar` for a full sidebar).
+
+If your ability returns structured data (an array or object), define the shape in `output_schema` and `json_decode()` the AI response in PHP before returning it. References:
+
+- [Abilities API — registering abilities & schemas](https://developer.wordpress.org/apis/abilities-api/)
+- [JSON Schema — type, properties, items, enum](https://json-schema.org/understanding-json-schema/reference/type)
+
+## Debugging
+
+- Check `wp-content/debug.log` for PHP errors and AI client failures
+- Check the browser console for JS errors and `executeAbility` rejections
+- If you're stuck, grab a facilitator — that's what we're here for
 
 ---
 
@@ -18,9 +36,13 @@ You have 2 hours. Use the same three-layer pattern from the workshop to build so
 
 ---
 
-## Choose Your Build
+## Build Anything You Want
 
-### Excerpt Generator
+**Build whatever you want** — the only requirement is that it follows the three-layer pattern above. The ideas below are starting points if you'd like one, not a menu you have to pick from. If you've got your own idea, run with it.
+
+### Ideas to Get You Started
+
+#### Excerpt Generator
 Generate a post excerpt from the full content.
 
 - **Ability:** `ai/excerpt-generation`
@@ -38,7 +60,7 @@ Generate a post excerpt from the full content.
 
 ---
 
-### Tag Suggester
+#### Tag Suggester
 Suggest relevant tags based on post content.
 
 - **Ability:** `ai/tag-suggestions`
@@ -57,7 +79,7 @@ Suggest relevant tags based on post content.
 
 ---
 
-### Meta Description Generator
+#### Meta Description Generator
 Generate an SEO-friendly meta description from title and content.
 
 - **Ability:** `ai/meta-description`
@@ -69,13 +91,13 @@ Generate an SEO-friendly meta description from title and content.
 
 - Tell the AI to stay under 160 characters and write in active voice
 - In JS: `select( 'core/editor' ).getEditedPostAttribute( 'title' )` gets the current title
-- If Yoast or RankMath is installed, check if they expose post meta you can write to
+- Store the result in post meta so it's available to themes and other plugins
 
 </details>
 
 ---
 
-### Title Variations
+#### Title Variations
 Generate 3 alternative post titles.
 
 - **Ability:** `ai/title-variations`
@@ -93,7 +115,7 @@ Generate 3 alternative post titles.
 
 ---
 
-### Tone Analyzer
+#### Tone Analyzer
 Classify the tone and reading level of the content.
 
 - **Ability:** `ai/tone-analysis`
@@ -111,7 +133,7 @@ Classify the tone and reading level of the content.
 
 ---
 
-### Content Translator
+#### Content Translator
 Translate post content to another language.
 
 - **Ability:** `ai/translate`
@@ -129,7 +151,7 @@ Translate post content to another language.
 
 ---
 
-### Comment Moderator
+#### Comment Moderator
 Classify a comment as spam, appropriate, or needs review.
 
 - **Ability:** `ai/moderate-comment`
@@ -139,7 +161,6 @@ Classify a comment as spam, appropriate, or needs review.
 <details>
 <summary>Hints</summary>
 
-- This works great as an MCP tool for bulk moderation — try calling it from Claude Desktop
 - In PHP, get post content with `get_the_content( null, false, $post_id )`
 - The `decision` enum gives you a machine-readable result you can act on programmatically
 
@@ -149,9 +170,7 @@ Classify a comment as spam, appropriate, or needs review.
 
 ## Stretch Goals
 
-- Register your ability as an MCP tool and call it from Claude Desktop or Cursor
 - Add configurable options (length, language, tone) via `<SelectControl>` or `<ToggleGroupControl>`
-- Support custom post types (make sure they have `show_in_rest: true`)
 - Store results to post meta for programmatic access
 - Handle errors gracefully using `createNotice` from `@wordpress/notices`
 
@@ -159,10 +178,46 @@ Classify a comment as spam, appropriate, or needs review.
 
 ## Reference
 
+**AI & Abilities**
+
 | Resource | URL |
 |----------|-----|
+| PHP AI Client (SDK) | https://github.com/WordPress/php-ai-client |
 | Abilities API (PHP) | https://developer.wordpress.org/apis/abilities-api/ |
 | @wordpress/abilities (JS) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-abilities/ |
-| Block Editor data stores | https://developer.wordpress.org/block-editor/reference-guides/data/ |
 | WordPress/ai reference plugin | https://github.com/WordPress/ai |
-| Complete workshop plugin | `code-reference/step-4-final/` |
+| MCP Adapter | https://github.com/WordPress/mcp-adapter |
+| JSON Schema reference | https://json-schema.org/understanding-json-schema/reference/type |
+
+**Block Editor / JS**
+
+| Resource | URL |
+|----------|-----|
+| SlotFills reference | https://developer.wordpress.org/block-editor/reference-guides/slotfills/ |
+| Data stores (`core/editor`, `core/block-editor`) | https://developer.wordpress.org/block-editor/reference-guides/data/ |
+| `@wordpress/plugins` (`registerPlugin`) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-plugins/ |
+| `@wordpress/components` (`Button`, `SelectControl`, `ToggleGroupControl`, `Panel`) | https://developer.wordpress.org/block-editor/reference-guides/components/ |
+| `@wordpress/blocks` (`createBlock`, `serialize`) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-blocks/ |
+| `@wordpress/notices` (`createNotice`) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-notices/ |
+| `@wordpress/data` (`useSelect`, `useDispatch`) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-data/ |
+| `@wordpress/editor` (`PluginPostStatusInfo`, `PluginDocumentSettingPanel`, `PluginSidebar`) | https://developer.wordpress.org/block-editor/reference-guides/packages/packages-editor/ |
+
+**WordPress core APIs**
+
+| Resource | URL |
+|----------|-----|
+| `register_post_meta` (storing results) | https://developer.wordpress.org/reference/functions/register_post_meta/ |
+| `register_post_type` (`show_in_rest`) | https://developer.wordpress.org/reference/functions/register_post_type/ |
+| `get_the_content` | https://developer.wordpress.org/reference/functions/get_the_content/ |
+| REST API handbook | https://developer.wordpress.org/rest-api/ |
+| Application Passwords | https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#application-passwords |
+
+**Background reading**
+
+| Resource | URL |
+|----------|-----|
+| Introducing the AI Client in WordPress 7.0 (Make WP Core, Mar 2026) | https://make.wordpress.org/core/2026/03/24/introducing-the-ai-client-in-wordpress-7-0/ |
+| Client-Side Abilities API in WordPress 7.0 (Make WP Core, Mar 2026) | https://make.wordpress.org/core/2026/03/24/client-side-abilities-api-in-wordpress-7-0/ |
+| Introducing the WordPress Abilities API (Nov 2025) | https://developer.wordpress.org/news/2025/11/introducing-the-wordpress-abilities-api/ |
+| From Abilities to AI Agents: the WordPress MCP Adapter (Feb 2026) | https://developer.wordpress.org/news/2026/02/from-abilities-to-ai-agents-introducing-the-wordpress-mcp-adapter/ |
+| AI Building Blocks for WordPress (Make WP AI, Jul 2025) | https://make.wordpress.org/ai/2025/07/17/ai-building-blocks |
