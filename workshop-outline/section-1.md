@@ -6,15 +6,13 @@ We're going to explore the Content Summarization experiment it ships with, see i
 
 ## See It Running
 
-1. In your WordPress admin, go to **Settings → AI**.
+1. In your WordPress admin, go to **Settings → Connectors** and confirm your API key is configured. Add one now if not.
 
-2. Select the **Providers** tab and confirm your API key is configured. Add one now if not.
+2. Go to **Settings → AI → Experiments**, find **Content Summarization**, and toggle it on.
 
-3. Go back to **Settings → AI → Experiments**, find **Content Summarization**, and toggle it on.
+3. Go to **Posts → Hello, Portugal!**
 
-4. Go to **Posts → Add New**. Write at least 3–4 paragraphs of content.
-
-5. In the right sidebar, find the **Summary** panel and click **Generate AI Summary**.
+4. In the right sidebar, find the **Summary** panel and click **Generate AI Summary**.
 
 A paragraph block containing a plain-text AI summary should appear at the top of your content. That is what we are building today.
 
@@ -26,10 +24,12 @@ Open the AI plugin directory (`wp-content/plugins/ai/`). The Summarization featu
 - **`includes/Abilities/Summarization/Summarization.php`** — defines input/output schema, checks permissions, calls the AI client, returns the result
 
 Open both. Notice the separation:
+
 - The **Experiment** class wires things up
 - The **Ability** class does the actual work
 
 Also take a look at:
+
 - **`includes/Abilities/Summarization/system-instruction.php`** — the prompt sent to the AI
 - **`src/experiments/summarization/index.tsx`** — the React entry point
 
@@ -38,6 +38,7 @@ Also take a look at:
 The real plugin is correct, extensible, and production-safe. That's intentional — but it means there's a lot of code defending against edge cases, filtering at every layer, and TypeScript abstractions layered on top of each other.
 
 Our version will be:
+
 - A single PHP file for all plugin logic
 - A single JS file for the block editor integration
 - No abstractions beyond what the APIs require
@@ -47,4 +48,5 @@ Same patterns. Much clearer signal. You can always go back to the reference plug
 ---
 
 # Ready to move on?
+
 [Section 2: Scaffold the Plugin & Connect to the AI API](./section-2.md)

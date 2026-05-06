@@ -45,7 +45,7 @@ const SummarizationPlugin = () => {
 registerPlugin( 'wcpt-summarization', { render: SummarizationPlugin } );
 ```
 
-4. Create or edit a post. You should see a **Generate AI Summary** button in the right sidebar. It doesn't do anything yet — let's fix that.
+4. Open **Posts → Hello, Portugal!** (pre-seeded by the blueprint). You should see a **Generate AI Summary** button in the right sidebar. It doesn't do anything yet — let's fix that.
 
 ## Get the Post Content
 
@@ -108,7 +108,7 @@ const SummarizationPlugin = () => {
 };
 ```
 
-7. Write some content in a post, click the button, and check the browser console. You should see your summary logged. 🎉
+7. Back in the **Hello, Portugal!** post, click the button and check the browser console. You should see your summary logged. 🎉
 
 ## Insert the Summary Block
 

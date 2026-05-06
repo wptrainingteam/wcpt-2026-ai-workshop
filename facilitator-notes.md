@@ -46,7 +46,7 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 - Emphasize: "Production code is correct. Workshop code is clear. Both patterns are valid."
 
 **Common sticking points:**
-- API key not configured → walk them to Settings → AI → Providers
+- API key not configured → walk them to Settings → Connectors
 - Summary button not showing → confirm the experiment is toggled on AND a provider is active
 
 ---
@@ -56,13 +56,13 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 **Goal:** Working plugin that makes a live AI request.
 
 **Talking points:**
-- `wp_ai_get_client()` abstracts all providers — the same code works with Anthropic, OpenAI, Ollama, LM Studio
+- `wp_ai_get_client()` abstracts all providers — the same code works with Anthropic, OpenAI, Google
 - The guard clause (`function_exists`) is the right pattern for APIs still landing in core
 - "We're removing the test function after confirming it works — this is scaffolding, not production code"
 
 **Common sticking points:**
 - `wp_ai_get_client` returns `null` → WP 7.0 RC not active, or the function isn't available yet
-- WP_Error returned → API key invalid or Ollama not running locally
+- WP_Error returned → API key invalid or provider unreachable
 - Composer autoloader issues → run `composer install` again from the plugin root
 
 ---
@@ -143,7 +143,6 @@ Announce the hackathon suggestions before the break so attendees can think about
 If multiple attendees can't get API keys working:
 1. Direct them to the WP Playground blueprint — the demo site has a pre-configured provider
 2. If Automattic arranged a shared key, distribute it via the session Slack channel or whiteboard
-3. Ollama + `llama3.2` is a reliable offline fallback — takes ~5 min to pull the model if they have it installed
 
 ---
 

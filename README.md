@@ -2,6 +2,8 @@
 
 ### WordCamp Portugal 2026
 
+**Presented by Ryan Welcher & JuanMa Garrido — Developer Advocates, Automattic**
+
 ## Pre-Workshop Setup Checklist
 
 To avoid wifi bottlenecks on the day, please complete this **before you arrive**:
@@ -26,11 +28,10 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
    composer install
    ```
 
-5. **Configure an API key** under **Settings → AI → Providers**. Any of the following will work:
-   - [Anthropic](https://console.anthropic.com/) (Claude)
-   - [OpenAI](https://platform.openai.com/)
-   - [Ollama](https://ollama.com/) running locally — `ollama pull llama3.2`
-   - [LM Studio](https://lmstudio.ai/) with a model downloaded
+5. **Configure an API key** under **Settings → Connectors**. Any of the following will work:
+   - [Anthropic](https://console.anthropic.com/) (Text generation with Claude)
+   - [OpenAI](https://platform.openai.com/) (Text and image generation with GPT and DALL·E)
+   - [Google](https://aistudio.google.com/api-keys) (Text and image generation with Gemini and Imagen)
 
 **Not using Studio?** For any other local WordPress installation you will need:
 
@@ -44,13 +45,11 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
   wp plugin activate wcpt-2026-ai-workshop
   ```
 
-**No local setup?** Use the one-click [WP Playground demo](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/wptrainingteam/wcpt-2026-ai-workshop/trunk/blueprint.json) — nothing to install.
-
 ---
 
 ## Welcome!
 
-Thanks for joining me today! We have 4 hours together, and we'll move at a steady pace — but there's plenty of room for questions along the way.
+Thanks for joining us today! We have 4 hours together, and we'll move at a steady pace — but there's plenty of room for questions along the way.
 
 ## What Are We Building?
 

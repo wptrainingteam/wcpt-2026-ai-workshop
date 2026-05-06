@@ -109,4 +109,4 @@ Classify a comment as spam, appropriate, or needs review.
 
 # That's a wrap!
 
-Share what you built. Find Ryan on [WordPress Slack](https://make.wordpress.org/chat/) (`@ryanwelcher`) or [GitHub](https://github.com/ryanwelcher).
+Share what you built. Find us on [WordPress Slack](https://make.wordpress.org/chat/) — Ryan: `@ryanwelcher` · JuanMa: `@juanma`.

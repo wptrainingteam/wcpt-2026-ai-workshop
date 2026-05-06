@@ -73,7 +73,7 @@ add_action( 'admin_notices', 'wcpt_test_ai_connection' );
 
 6. Load any admin page. You should see a green notice with a one-sentence greeting from your AI model. 🎉
 
-If you see an error, check **Settings → AI → Providers** and confirm your API key is saved correctly.
+If you see an error, check **Settings → Connectors** and confirm your API key is saved correctly.
 
 7. Once it's working, **remove** the `wcpt_test_ai_connection` function and its `add_action` call — we won't need it anymore.
 
