@@ -1,0 +1,38 @@
+{
+  "name": "wcpt-2026-ai-workshop",
+  "version": "0.1.0",
+  "description": "WordCamp Portugal 2026 workshop plugin — Content Summarization built on the WordPress 7.0 AI Building Blocks (PHP AI Client, Abilities API, MCP).",
+  "author": "Ryan Welcher",
+  "contributors": [
+    "Ryan Welcher",
+    "JuanMa Garrido"
+  ],
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "keywords": [
+    "wordpress",
+    "wordpress-plugin",
+    "workshop",
+    "ai",
+    "abilities-api",
+    "mcp",
+    "wordcamp"
+  ],
+  "homepage": "https://portugal.wordcamp.org/2026/session/stop-doing-it-yourself-building-ai-powered-admin-tools-with-the-wordpress-ai-api/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wptrainingteam/wcpt-2026-ai-workshop"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "wp-scripts start src/index.js",
+    "build": "wp-scripts build src/index.js",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^32.1.0"
+  },
+  "prettier": "@wordpress/prettier-config"
+}
