@@ -14,6 +14,8 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
    When the **Add a site** dialog appears, expand **Advanced settings** and set the WordPress version to **7.0-RC2** (listed under Beta & Nightly in the version dropdown). All other settings can be left as their defaults.
 
+   ![Studio Add a site dialog with WordPress version set to 7.0-RC2](assets/manually-set-version.png)
+
    > **Important:** The site will fail to be created if the WordPress version is not set to 7.0-RC2.
 
    Once the version is set, click **Add site**. Studio will install all required plugins and the workshop plugin with everything activated and ready to go.
