@@ -132,13 +132,13 @@ The REST API requires authentication. We'll use an application password — a pe
 7. Use curl from your terminal (replace `yoursite.local` with your Studio site URL, and paste the application password you just generated):
 
 ```bash
-curl -X POST "http://yoursite.local/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
-  -u "admin:your-application-password" \
+curl -X POST "{YOUR_SITE_URL}/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
+  -u "admin:{YOU_APPLICATION_PASSWORD}" \
   -H "Content-Type: application/json" \
   -d '{
     "input": {
       "content": "WordPress is open source software you can use to create a beautiful website, blog, or app. Beautiful designs, powerful features, and the freedom to build anything you want.",
-      "length": "short"
+      "length": "long"
     }
   }'
 ```
@@ -150,7 +150,9 @@ You should get back a plain-text string — a one-sentence summary of the conten
 ---
 
 # Ready to move on?
+
 [Section 4: Block Editor Integration](./section-4.md)
 
 # Missing something from the last section?
+
 [Section 2: Scaffold the Plugin & Connect to the AI API](./section-2.md)
