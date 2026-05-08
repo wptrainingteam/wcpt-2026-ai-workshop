@@ -25,6 +25,9 @@ Reference: [PHP AI Client (WordPress/php-ai-client)](https://github.com/WordPres
 2. Below the header, add a guard so the plugin exits gracefully on older WordPress versions:
 
 ```php
+// The PHP AI Client (`wp_ai_client_prompt()`) ships in WordPress 7.0 core.
+// On older versions the function isn't defined yet — bail out silently so
+// the plugin doesn't fatal during an upgrade.
 if ( ! function_exists( 'wp_ai_client_prompt' ) ) {
 	return;
 }
@@ -33,6 +36,7 @@ if ( ! function_exists( 'wp_ai_client_prompt' ) ) {
 3. Require our main includes file:
 
 ```php
+// All plugin logic lives in includes/summarizer.php.
 require_once __DIR__ . '/includes/summarizer.php';
 ```
 
@@ -47,11 +51,22 @@ Before wiring up any WordPress APIs, let's confirm the AI client is working with
 ```php
 <?php
 
+/**
+ * Temporary smoke test — confirms the configured AI provider is reachable.
+ *
+ * Hooks into `admin_notices` so the result is visible on every admin screen.
+ * Removed at the start of Section 3 once the real ability replaces it.
+ */
 function wcpt_test_ai_connection() {
+	// Restrict to admins; we don't want every editor seeing the smoke test.
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
+	// `wp_ai_client_prompt()` returns a builder object; calling
+	// `->generate_text()` is what makes the actual provider request. The
+	// result is a string on success or a WP_Error on failure (bad key, rate
+	// limit, network error, etc.).
 	$response = wp_ai_client_prompt(
 		'Say hello to the WordCamp Portugal 2026 workshop attendees in exactly one sentence.'
 	)->generate_text();
@@ -76,7 +91,7 @@ add_action( 'admin_notices', 'wcpt_test_ai_connection' );
 
 If you see an error, check **Settings → Connectors** and confirm your API key is saved correctly.
 
-7. Once it's working, **remove** the `wcpt_test_ai_connection` function and its `add_action` call — we won't need it anymore.
+7. Leave the test function in place for now — it's our proof that the AI client is wired up. We'll delete it at the start of Section 3 when we replace it with the real ability code.
 
 ---
 
