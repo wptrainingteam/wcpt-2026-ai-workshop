@@ -63,7 +63,6 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 **Common sticking points:**
 - `wp_ai_client_prompt` not found / fatal error → WP 7.0 RC not active, or the function isn't available yet
 - WP_Error returned → API key invalid or provider unreachable
-- Composer autoloader issues → run `composer install` again from the plugin root
 
 ---
 

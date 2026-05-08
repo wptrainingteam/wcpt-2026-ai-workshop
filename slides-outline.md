@@ -55,17 +55,16 @@
 - WordPress 7.0 RC (required — AI APIs ship in 7.0)
 - WP Playground fallback: [link]
 - API key: Anthropic / OpenAI / Google
-- Clone the repo, `npm install`, `composer install`
+- Clone the repo, `npm install`
 
 ---
 
 ## Workshop Structure
 
-- 5 guided sections (~90 min)
+- 5 guided sections (1 tour + 3 coding + 1 MCP demo, ~90 min)
 - 10 min break
 - 2 hour hackathon
-- `code-reference/step-N/` available if you fall behind
-- `git checkout step-N` to jump to any point
+- `code-reference/section-N/` available for each coding section if you fall behind
 
 ---
 
@@ -134,7 +133,7 @@ add_action( 'wp_abilities_api_categories_init', function() {
 
 ```php
 add_action( 'wp_abilities_api_init', function() {
-    wp_register_ability( 'ai/summarization', [
+    wp_register_ability( 'wcpt/summarization', [
         'category'            => 'wcpt',
         'input_schema'        => [ /* content, length */ ],
         'output_schema'       => [ 'type' => 'string' ],
@@ -147,7 +146,7 @@ add_action( 'wp_abilities_api_init', function() {
 ### Test It
 
 ```bash
-curl -X POST "/wp-json/wp-abilities/v1/abilities/ai/summarization/run" \
+curl -X POST "/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
   -u "admin:app-password" \
   -d '{"input": {"content": "...", "length": "short"}}'
 ```
@@ -169,7 +168,7 @@ curl -X POST "/wp-json/wp-abilities/v1/abilities/ai/summarization/run" \
 ```javascript
 import { executeAbility } from "@wordpress/abilities";
 
-const summary = await executeAbility("ai/summarization", {
+const summary = await executeAbility("wcpt/summarization", {
   content,
   length: "medium",
 });
@@ -200,7 +199,7 @@ const summary = await executeAbility("ai/summarization", {
 
 ### Live Demo
 
-- [Claude Desktop calls ai/summarization on a post]
+- [Claude Desktop calls wcpt/summarization on a post]
 
 ---
 

@@ -2,6 +2,8 @@
 
 The Abilities API gives our AI feature a standard, discoverable interface. Instead of a bespoke REST route, we register an Ability with a defined input/output schema — and WordPress automatically exposes it as a REST endpoint that any client (including AI agents) can call.
 
+> **End-of-section reference:** `code-reference/section-3/`
+
 Reference: [Abilities API](https://developer.wordpress.org/apis/abilities-api/)
 
 ## Register a Category

@@ -2,6 +2,8 @@
 
 Time to write code. We'll create the plugin scaffold and make our first live AI request using `wp_ai_client_prompt()` — WordPress 7.0's provider-agnostic PHP AI Client.
 
+> **End-of-section reference:** `code-reference/section-2/`
+
 Reference: [PHP AI Client (WordPress/php-ai-client)](https://github.com/WordPress/php-ai-client)
 
 ## The Plugin File
@@ -51,7 +53,7 @@ function wcpt_test_ai_connection() {
 	}
 
 	$response = wp_ai_client_prompt(
-		'Say hello to the WordCamp Portugal 2026 attendees in exactly one sentence.'
+		'Say hello to the WordCamp Portugal 2026 workshop attendees in exactly one sentence.'
 	)->generate_text();
 
 	if ( is_wp_error( $response ) ) {

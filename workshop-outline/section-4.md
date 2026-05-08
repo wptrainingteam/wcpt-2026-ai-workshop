@@ -2,6 +2,8 @@
 
 The REST endpoint works. Now let's wire up a button in the block editor that calls our ability and inserts the summary as a paragraph block. We'll use `@wordpress/abilities` — the JavaScript client for the Abilities API — so we don't have to construct the REST request manually.
 
+> **End-of-section reference:** `code-reference/section-4/`
+
 Reference: [@wordpress/abilities](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-abilities/)
 
 ## Start the Build

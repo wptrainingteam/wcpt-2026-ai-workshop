@@ -26,12 +26,11 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
    nvm install 20 && nvm use 20
    ```
 
-4. **Install dependencies** in the workshop plugin directory:
+4. **Install JS dependencies** in the workshop plugin directory:
 
    ```bash
    cd /path/to/your/studio/site/wp-content/plugins/wcpt-2026-ai-workshop
    npm install
-   composer install
    ```
 
 5. **Configure an API key** under **Settings → Connectors**. Any of the following will work:
@@ -77,21 +76,19 @@ Then you'll have **2 hours** to build whatever you want using the same patterns.
 
 ## Structure
 
-There are 5 guided sections followed by a 2-hour hackathon. Each section builds on the previous one.
+There are 5 guided sections (1 tour + 3 coding + 1 MCP demo) plus a 2-hour hackathon. Each section builds on the previous one.
 
-For each section, `code-reference/step-N/` contains the complete state of the code at the end of that step — use it freely if you fall behind or want a clean start.
+The plugin in the repo root is intentionally a scaffold — empty `includes/` and `src/` directories with just a plugin header. You'll fill it in as the workshop progresses. If you fall behind or want a clean start, the `code-reference/` folders contain the complete state of the code at the end of each coding section.
 
-You can jump to any step using git:
+**Section ↔ code-reference mapping:**
 
-```bash
-git checkout step-2-abilities
-```
-
-| Tag                | State                                  |
-| ------------------ | -------------------------------------- |
-| `step-1-scaffold`  | Plugin stub + first AI request working |
-| `step-2-abilities` | Ability registered, callable via REST  |
-| `step-3-js`        | Full Block Editor integration          |
-| `step-4-final`     | Complete plugin                        |
+| Section                          | Code reference                | State                                  |
+| -------------------------------- | ----------------------------- | -------------------------------------- |
+| 1 — Tour AI Experiments Plugin   | _no code_                     | Exploration only                       |
+| 2 — Scaffold + AI API            | `code-reference/section-2/`   | Plugin stub + first AI request working |
+| 3 — Register the Ability         | `code-reference/section-3/`   | Ability registered, callable via REST  |
+| 4 — Block Editor Integration     | `code-reference/section-4/`   | Complete plugin                        |
+| 5 — MCP Demo                     | _no code_                     | Presenter-led demo                     |
+| 6 — Hackathon                    | _self-directed_               | Build your own ability                 |
 
 Let's go! → [Section 1: Tour the AI Experiments Plugin](./workshop-outline/section-1.md)
