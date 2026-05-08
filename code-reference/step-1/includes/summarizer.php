@@ -6,7 +6,7 @@ function wcpt_test_ai_connection() {
 	}
 
 	$response = wp_ai_client_prompt(
-		'Say hello to the WordCamp Portugal 2026 attendees in exactly one sentence.'
+		'Say hello to the WordCamp Portugal 2026 workshop attendees in exactly one sentence.'
 	)->generate_text();
 
 	if ( is_wp_error( $response ) ) {
