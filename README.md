@@ -70,7 +70,7 @@ By the end of the guided section you will have:
 
 - A WordPress plugin that connects to an AI provider
 - A registered Ability callable via the REST API
-- A block editor button that generates a summary and inserts it as a paragraph block
+- A block editor button that generates a summary and inserts it as a quote block at the top of the post
 
 Then you'll have **2 hours** to build whatever you want using the same patterns.
 

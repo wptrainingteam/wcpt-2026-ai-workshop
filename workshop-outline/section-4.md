@@ -91,7 +91,7 @@ Script-module enqueueing for this scenario currently only registers correctly on
 
 We'll use the `registerPlugin` API and the `PluginPostStatusInfo` SlotFill to add our button to the post sidebar.
 
-4. Add the imports and register the plugin. We're front-loading every import we'll need across the rest of the section — `useState`, `useSelect`, `useDispatch`, `serialize`, `createBlock`, and `SelectControl` won't get used until later steps, so don't worry if your linter complains about unused imports for a few minutes.
+4. Add the imports and register the plugin. We're front-loading every import we'll need across the rest of the section — `SelectControl` in particular won't get used until the length-picker step near the end, so don't worry if your linter complains about an unused import for a few minutes.
 
 ```javascript
 import { registerPlugin } from '@wordpress/plugins';
@@ -300,7 +300,7 @@ const SummarizationPlugin = () => {
 };
 ```
 
-10. Click the button. A paragraph block containing the AI-generated summary should appear at the top of your post content. 🔥🔥🔥
+10. Click the button. A quote block containing the AI-generated summary (with the citation "WCPT AI Summarizer") should appear at the top of your post content. 🔥🔥🔥
 
 ## Let the User Pick the Summary Length
 

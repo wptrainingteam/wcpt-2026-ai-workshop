@@ -12,11 +12,11 @@ We're going to explore the Content Summarization experiment it ships with, see i
 
 3. Go to **Posts → Hello, Portugal!**
 
-> If you're not using the WP Playground blueprint, this post won't be pre-seeded — create a new post titled **Hello, Portugal!** with a few paragraphs of placeholder content before continuing. Any text will do; we just need something for the AI to summarize.
+> If you're not using the blueprint, this post won't be pre-seeded — create a new post titled **Hello, Portugal!** with a few paragraphs of placeholder content before continuing. Any text will do; we just need something for the AI to summarize.
 
 4. In the right sidebar, find the **Summary** panel and click **Generate AI Summary**.
 
-A paragraph block containing a plain-text AI summary should appear at the top of your content. That is what we are building today.
+A paragraph block containing a plain-text AI summary should appear at the top of your content. That's the shape of feature we're building today — our version will wrap the summary in a quote block instead, but the flow is the same.
 
 ## Read the Source
 

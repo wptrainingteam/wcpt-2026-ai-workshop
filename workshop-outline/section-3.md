@@ -158,7 +158,7 @@ The REST API requires authentication. We'll use an application password — a pe
 
 ```bash
 curl -X POST "{YOUR_SITE_URL}/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
-  -u "admin:{YOU_APPLICATION_PASSWORD}" \
+  -u "admin:{YOUR_APPLICATION_PASSWORD}" \
   -H "Content-Type: application/json" \
   -d '{
     "input": {
@@ -168,9 +168,9 @@ curl -X POST "{YOUR_SITE_URL}/wp-json/wp-abilities/v1/abilities/wcpt/summarizati
   }'
 ```
 
-You should get back a plain-text string — a one-sentence summary of the content. 🔥
+You should get back a plain-text string — a 4–6 sentence summary of the content (because we asked for `"length": "long"`). 🔥
 
-8. Try it with `"length": "long"` and see the difference.
+8. Try it with `"length": "short"` and see the difference — you should get a single-sentence summary instead.
 
 ---
 
