@@ -152,6 +152,28 @@ Translate post content to another language.
 
 ---
 
+#### AI Featured Image
+Generate a cover image from the post's title or content and attach it as the featured image.
+
+- **Ability:** `ai/featured-image`
+- **Input:** `prompt` (string), `aspect_ratio` (string, optional)
+- **Output:** object with `attachment_id` (integer) and `url` (string)
+
+> **Provider check.** Image generation requires a provider that supports it. **OpenAI** (DALL·E) and **Google** (Imagen) work; **Anthropic does not generate images.** Before you start, confirm the API key under **Settings → Connectors** is OpenAI or Google, and gate your callback with `wp_ai_client_prompt( '' )->is_supported_for_image_generation()` so it returns a clean `WP_Error` if the wrong provider is configured.
+
+<details>
+<summary>Hints</summary>
+
+- Build the prompt from the post title: `select( 'core/editor' ).getEditedPostAttribute( 'title' )`
+- Call `->generate_image()` (or `->generate_image_result()` for metadata). Chain `->as_output_media_aspect_ratio( '16:9' )` if you exposed an aspect-ratio input
+- Sideload the returned URL into the media library: `require_once ABSPATH . 'wp-admin/includes/media.php'; $attachment_id = media_sideload_image( $url, $post_id, null, 'id' );`
+- Attach with `set_post_thumbnail( $post_id, $attachment_id )`
+- In JS, after the ability returns: `dispatch( 'core/editor' ).editPost( { featured_media: attachment_id } )`
+
+</details>
+
+---
+
 #### Comment Moderator
 Classify a comment as spam, appropriate, or needs review.
 

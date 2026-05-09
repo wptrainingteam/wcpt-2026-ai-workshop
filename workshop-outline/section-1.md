@@ -35,6 +35,37 @@ Also take a look at:
 - **`includes/Abilities/Summarization/system-instruction.php`** — the prompt sent to the AI
 - **`src/experiments/summarization/index.tsx`** — the React entry point
 
+## The PHP AI Client API Surface
+
+`wp_ai_client_prompt()` is the entry point you'll use everywhere in this workshop. It returns a fluent builder object — `generate_text()` is the method you'll see most, but it's one of many. Quick orientation before we write any code.
+
+**Three layers, one builder:**
+
+- The **PHP AI Client SDK** ([`WordPress/php-ai-client`](https://github.com/WordPress/php-ai-client)) defines the builder and every `generate_*` method.
+- The **provider plugins** (`ai-provider-for-anthropic`, `ai-provider-for-openai`, `ai-provider-for-google`) implement a `ProviderInterface` plus per-capability model contracts and register themselves with the SDK. They don't add or override builder methods — the SDK routes to them.
+- **WordPress 7.0 core** ships a thin snake_case wrapper, `WP_AI_Client_Prompt_Builder`, that converts SDK exceptions into `WP_Error` and uses the WP HTTP API for transport. That wrapper is what `wp_ai_client_prompt()` hands you.
+
+Because the SDK owns the public surface, the same `->generate_image()` call works regardless of which provider you have configured — the SDK routes the request to whichever registered provider declares image-generation support.
+
+**What the builder offers:**
+
+- **Generate** — `generate_text()`, `generate_image()`, `generate_speech()`, `convert_text_to_speech()`, `generate_video()`. Each has a `_result()` variant that returns rich metadata (token counts, finish reason, etc.) and a plural form (`generate_texts( $n )`, …) for multiple candidates.
+- **Configure the request** — `using_model()`, `using_provider()`, `using_system_instruction()`, `using_temperature()`, `using_max_tokens()`, `using_top_p()`, `using_function_declarations()`, `using_web_search()`, …
+- **Shape the output** — `as_json_response( $schema )`, `as_output_modalities()`, `as_output_media_aspect_ratio()`, …
+- **Build conversational input** — `with_text()`, `with_file()`, `with_history()`, `with_message_parts()`.
+- **Check capabilities before calling** — `is_supported_for_text_generation()`, `is_supported_for_image_generation()`, `is_supported_for_speech_generation()`, `is_supported_for_video_generation()`, `is_supported_for_embedding_generation()`. Useful when the configured provider may not support what you're about to ask for.
+
+A typical chain:
+
+```php
+$image = wp_ai_client_prompt( 'A cyberpunk surfer on the Tagus river at sunset.' )
+    ->using_temperature( 0.6 )
+    ->as_output_media_aspect_ratio( '16:9' )
+    ->generate_image();
+```
+
+We'll stick with `generate_text()` for the rest of the workshop, but keep the wider surface in the back of your mind for the hackathon.
+
 ## Why Are We Rebuilding It?
 
 The real plugin is correct, extensible, and production-safe. That's intentional — but it means there's a lot of code defending against edge cases, filtering at every layer, and TypeScript abstractions layered on top of each other.
