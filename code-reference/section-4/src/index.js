@@ -107,7 +107,6 @@ const SummarizationPlugin = () => {
 					{ label: 'Long', value: 'long' },
 				] }
 				onChange={ setLength }
-				__nextHasNoMarginBottom
 			/>
 			<Button
 				variant="primary"

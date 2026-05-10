@@ -29,11 +29,13 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 4. **Install JS dependencies** in the workshop plugin directory:
 
    ```bash
-   cd /path/to/your/studio/site/wp-content/plugins/wcpt-2026-ai-workshop
+   cd /path/to/your/studio/site/wp-content/plugins/wcpt-2026-ai-workshop-trunk
    npm install
    ```
 
-5. **Configure an API key** under **Settings → Connectors**. Any of the following will work:
+   > Studio installs the plugin from `trunk.zip`, so the directory ends up named `wcpt-2026-ai-workshop-trunk` (with the `-trunk` suffix). Use that path here.
+
+5. **Configure an API key** in your Studio site's WordPress admin under **Settings → Connectors**. Any of the following will work:
    - [Anthropic](https://console.anthropic.com/) (Text generation with Claude)
    - [OpenAI](https://platform.openai.com/) (Text and image generation with GPT and DALL·E)
    - [Google](https://aistudio.google.com/api-keys) (Text and image generation with Gemini and Imagen)
@@ -47,6 +49,8 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
   ```bash
   cd /path/to/your/site/wp-content/plugins/
   git clone https://github.com/wptrainingteam/wcpt-2026-ai-workshop
+  cd wcpt-2026-ai-workshop
+  npm install
   wp plugin activate wcpt-2026-ai-workshop
   ```
 
@@ -54,7 +58,7 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
 ## Welcome!
 
-Thanks for joining us today! We have 4 hours together, and we'll move at a steady pace — but there's plenty of room for questions along the way.
+Thanks for joining us today! We have 3.5 hours together — about 90 minutes of guided instruction, then a 2-hour hackathon. We'll move at a steady pace, but there's room for questions along the way.
 
 ## What Are We Building?
 
@@ -80,12 +84,14 @@ There are 5 guided sections (1 tour + 3 coding + 1 MCP demo) plus a 2-hour hacka
 
 The plugin in the repo root is intentionally a scaffold — empty `includes/` and `src/` directories with just a plugin header. You'll fill it in as the workshop progresses. If you fall behind or want a clean start, the `code-reference/` folders contain the complete state of the code at the end of each coding section.
 
+> **Note on `code-reference/section-2/`:** this snapshot contains a temporary smoke-test function that Section 3 begins by deleting. If you copy section-2 forward as a starting point, remove `wcpt_test_ai_connection` (and its `add_action` call) before continuing.
+
 **Section ↔ code-reference mapping:**
 
 | Section                          | Code reference                | State                                  |
 | -------------------------------- | ----------------------------- | -------------------------------------- |
 | 1 — Tour AI Experiments Plugin   | _no code_                     | Exploration only                       |
-| 2 — Scaffold + AI API            | `code-reference/section-2/`   | Plugin stub + first AI request working |
+| 2 — Scaffold + AI API            | `code-reference/section-2/`   | Plugin stub + smoke-test AI request    |
 | 3 — Register the Ability         | `code-reference/section-3/`   | Ability registered, callable via REST  |
 | 4 — Block Editor Integration     | `code-reference/section-4/`   | Complete plugin                        |
 | 5 — MCP Demo                     | _no code_                     | Presenter-led demo                     |

@@ -8,12 +8,12 @@
 
 ## Before the Workshop
 
-- Confirm your demo machine is running WordPress Studio with WP 7.0 RC
+- Confirm your demo machine is running WordPress Studio with WP 7.0 RC2
 - Have the WordPress/ai plugin installed and Summarization experiment enabled
 - Have your own API key configured and tested — confirm a summary generates
 - Have Claude Desktop (or Cursor) connected to the site via MCP for the Section 5 demo
 - Load the WP Playground blueprint link and confirm it works as a fallback
-- Have the `wcpt-2026-content-summarization` repo cloned and dependencies installed
+- Have the `wcpt-2026-ai-workshop` repo cloned and dependencies installed
 - Cue up the source files you'll be navigating in Section 1
 
 ---
@@ -22,21 +22,21 @@
 
 | Section | Title | Target Time | Cumulative |
 |---------|-------|-------------|------------|
-| 1 | Tour AI Experiments Plugin | 15 min | 0:15 |
-| 2 | Scaffold + AI API | 25 min | 0:40 |
-| 3 | Register the Ability | 25 min | 1:05 |
-| 4 | Block Editor Integration | 25 min | 1:30 |
-| 5 | MCP Demo | 10 min | 1:40 |
-| Break | — | 10 min | 1:50 |
-| 6 | Hackathon | 2 hrs | 3:50 |
+| 1 | Tour AI Experiments Plugin | 10 min | 0:10 |
+| 2 | Scaffold + AI API | 20 min | 0:30 |
+| 3 | Register the Ability | 20 min | 0:50 |
+| 4 | Block Editor Integration | 25 min | 1:15 |
+| 5 | MCP Demo | 10 min | 1:25 |
+| Break | — | 5 min | 1:30 |
+| 6 | Hackathon | 2 hrs | 3:30 |
 
-The 3:50 total gives a small buffer for questions. If sections run long, trim Section 5 first — it's demo-only and the audience has already seen the pattern.
+Instruction (Sections 1–5 + break) lands at 1:30 to leave a full 2 hours for the hackathon. If sections run long, trim Section 5 first — it's demo-only and the audience has already seen the pattern.
 
 ---
 
 ## Section-by-Section Notes
 
-### Section 1 — Tour the AI Experiments Plugin (15 min)
+### Section 1 — Tour the AI Experiments Plugin (10 min)
 
 **Goal:** Set context for what we're rebuilding and why.
 
@@ -51,7 +51,7 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 
 ---
 
-### Section 2 — Scaffold + AI Client (25 min)
+### Section 2 — Scaffold + AI Client (20 min)
 
 **Goal:** Working plugin that makes a live AI request.
 
@@ -66,7 +66,7 @@ The 3:50 total gives a small buffer for questions. If sections run long, trim Se
 
 ---
 
-### Section 3 — Register the Ability (25 min)
+### Section 3 — Register the Ability (20 min)
 
 **Goal:** Ability registered and callable via REST API.
 
@@ -132,7 +132,7 @@ If an attendee's environment refuses to load the script module, point them to th
 
 ---
 
-### Break (10 min)
+### Break (5 min)
 
 Announce the hackathon suggestions before the break so attendees can think about what they want to build. Point them to `workshop-outline/section-6.md`.
 

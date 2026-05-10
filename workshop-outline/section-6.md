@@ -46,7 +46,7 @@ If your ability returns structured data (an array or object), define the shape i
 #### Excerpt Generator
 Generate a post excerpt from the full content.
 
-- **Ability:** `ai/excerpt-generation`
+- **Ability:** `wcpt/excerpt-generation`
 - **Input:** `content` (string), `max_words` (integer, default: 55)
 - **Output:** string
 
@@ -64,7 +64,7 @@ Generate a post excerpt from the full content.
 #### Tag Suggester
 Suggest relevant tags based on post content.
 
-- **Ability:** `ai/tag-suggestions`
+- **Ability:** `wcpt/tag-suggestions`
 - **Input:** `content` (string), `count` (integer, default: 5)
 - **Output:** array of strings
 
@@ -83,7 +83,7 @@ Suggest relevant tags based on post content.
 #### Meta Description Generator
 Generate an SEO-friendly meta description from title and content.
 
-- **Ability:** `ai/meta-description`
+- **Ability:** `wcpt/meta-description`
 - **Input:** `title` (string), `content` (string)
 - **Output:** string (target: under 160 characters)
 
@@ -101,7 +101,7 @@ Generate an SEO-friendly meta description from title and content.
 #### Title Variations
 Generate 3 alternative post titles.
 
-- **Ability:** `ai/title-variations`
+- **Ability:** `wcpt/title-variations`
 - **Input:** `content` (string), `current_title` (string)
 - **Output:** array of strings
 
@@ -119,7 +119,7 @@ Generate 3 alternative post titles.
 #### Tone Analyzer
 Classify the tone and reading level of the content.
 
-- **Ability:** `ai/tone-analysis`
+- **Ability:** `wcpt/tone-analysis`
 - **Input:** `content` (string)
 - **Output:** object with `tone` and `reading_level`
 
@@ -137,7 +137,7 @@ Classify the tone and reading level of the content.
 #### Content Translator
 Translate post content to another language.
 
-- **Ability:** `ai/translate`
+- **Ability:** `wcpt/translate`
 - **Input:** `content` (string), `target_language` (string)
 - **Output:** string
 
@@ -155,7 +155,7 @@ Translate post content to another language.
 #### AI Featured Image
 Generate a cover image from the post's title or content and attach it as the featured image.
 
-- **Ability:** `ai/featured-image`
+- **Ability:** `wcpt/featured-image`
 - **Input:** `prompt` (string), `aspect_ratio` (string, optional)
 - **Output:** object with `attachment_id` (integer) and `url` (string)
 
@@ -177,7 +177,7 @@ Generate a cover image from the post's title or content and attach it as the fea
 #### Comment Moderator
 Classify a comment as spam, appropriate, or needs review.
 
-- **Ability:** `ai/moderate-comment`
+- **Ability:** `wcpt/moderate-comment`
 - **Input:** `comment` (string), `post_context` (string)
 - **Output:** object with `decision` (enum: spam/appropriate/review) and `reason` (string)
 

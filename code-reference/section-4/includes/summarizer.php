@@ -124,7 +124,9 @@ function wcpt_execute_summarization( $input ) {
 function wcpt_enqueue_script_modules() {
 	$screen          = get_current_screen();
 	$allowed_screens = array( 'post', 'page' );
-	if ( ! in_array( $screen->id, $allowed_screens, true ) ) {
+	// `get_current_screen()` can return null on some admin entry points;
+	// guard before dereferencing `->id`.
+	if ( ! $screen || ! in_array( $screen->id, $allowed_screens, true ) ) {
 		return;
 	}
 
