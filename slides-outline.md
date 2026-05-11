@@ -19,7 +19,7 @@
   - Working on WordPress developer tools and AI integrations
   - Active in #core-editor and #core-ai on WordPress Slack
 - **JuanMa Garrido** — Developer Advocate at Automattic
-  - WordPress Slack: @juanma
+  - WordPress Slack: @JuanMa
 
 ---
 
@@ -247,4 +247,4 @@ const summary = await executeAbility("wcpt/summarization", {
 ### Questions?
 
 - Ryan — WordPress Slack: @ryanwelcher
-- JuanMa — WordPress Slack: @juanma
+- JuanMa — WordPress Slack: @JuanMa

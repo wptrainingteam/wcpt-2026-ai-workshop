@@ -2,6 +2,8 @@
 
 **This section is presenter-led. Sit back and watch — no coding required.**
 
+> **Presenter setup note.** The workshop blueprint does **not** bundle the [`mcp-adapter`](https://github.com/WordPress/mcp-adapter) package — it's only needed for this demo, not for attendees to follow along. Before running this section, install and activate `mcp-adapter` on your demo site (it's the package that bridges the Abilities API to the `/wp-json/wp-abilities/v1/mcp` MCP endpoint). Attendee sites do not need it.
+
 We've built a working ability callable from the REST API and from the block editor. Now let's see something interesting: because we registered it through the Abilities API, it's already available to AI agents via the **Model Context Protocol (MCP)** — with no extra code.
 
 ## What is MCP?

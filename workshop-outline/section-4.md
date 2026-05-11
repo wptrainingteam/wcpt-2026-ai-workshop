@@ -2,7 +2,7 @@
 
 The REST endpoint works. Now let's wire up a button in the block editor that calls our ability and inserts the summary as a paragraph block. We'll use `@wordpress/abilities` — the JavaScript client for the Abilities API — so we don't have to construct the REST request manually.
 
-> **End-of-section reference:** `code-reference/section-4/`
+> **Stuck? Completed code for this section lives at `code-reference/section-4/`** — open it to compare against your own work, not to copy from.
 
 Reference: [@wordpress/abilities](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-abilities/)
 
@@ -59,7 +59,9 @@ function wcpt_enqueue_script_modules() {
 	}
 	$assets = require $asset_file;
 
-	// Should be removed once 7.0 is released.
+	// Required as of WordPress 7.0 RC3 — the script-module loader does not
+	// auto-register these yet. Re-test after each RC; remove these two lines
+	// (and the explainer below) once they're registered automatically.
 	wp_enqueue_script_module( '@wordpress/core-abilities' );
 	wp_enqueue_script_module( '@wordpress/abilities' );
 
@@ -91,7 +93,7 @@ Script-module enqueueing for this scenario currently only registers correctly on
 
 ## Register a Plugin
 
-We'll use the `registerPlugin` API and the `PluginPostStatusInfo` SlotFill to add our button to the post sidebar.
+We'll use the [`registerPlugin`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-plugins/#registerplugin) API and the `PluginPostStatusInfo` SlotFill to add our button to the post sidebar.
 
 4. Add the imports and register the plugin. We're front-loading every import we'll need across the rest of the section — `SelectControl` in particular won't get used until the length-picker step near the end, so don't worry if your linter complains about an unused import for a few minutes.
 
@@ -232,6 +234,8 @@ const SummarizationPlugin = () => {
 ```
 
 8. Back in the **Hello, Portugal!** post, click the button and check the browser console. You should see your summary logged. 🎉
+
+> **Watch the REST call.** Open the browser DevTools **Network** tab, filter on `abilities`, and click the button again. `executeAbility()` is just a thin wrapper around `fetch()` — you'll see a `POST` to `/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run` carrying the same `{ content, length }` payload we passed in JS, and the response body matches the ability's `output_schema`. No bespoke REST route written; the Abilities API generated it from the schema we registered in Section 3.
 
 ## Insert the Summary Block
 

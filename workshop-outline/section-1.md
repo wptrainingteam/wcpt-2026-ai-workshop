@@ -8,7 +8,9 @@ We're going to explore the Content Summarization experiment it ships with, see i
 
 1. In your WordPress admin, go to **Settings → Connectors** and confirm your API key is configured. Add one now if not.
 
-2. Go to **Settings → AI → Experiments**, find **Content Summarization**, and toggle it on.
+2. Go to **Settings → AI → Experiments**
+  - find **Enable AI**, and toggle it on.
+  - find **Content Summarization**, and toggle it on.
 
 3. Go to **Posts → Hello, Portugal!**
 
@@ -22,8 +24,8 @@ A paragraph block containing a plain-text AI summary should appear at the top of
 
 Open the AI plugin directory (`wp-content/plugins/ai/`). The Summarization feature lives in two files:
 
-- **`includes/Experiments/Summarization/Summarization.php`** — handles registration, hooks into the editor, enqueues assets, registers post meta
-- **`includes/Abilities/Summarization/Summarization.php`** — defines input/output schema, checks permissions, calls the AI client, returns the result
+- **[`includes/Experiments/Summarization/Summarization.php`](https://github.com/WordPress/ai/blob/develop/includes/Experiments/Summarization/Summarization.php)** — handles registration, hooks into the editor, enqueues assets, registers post meta
+- **[`includes/Abilities/Summarization/Summarization.php`](https://github.com/WordPress/ai/blob/develop/includes/Abilities/Summarization/Summarization.php)** — defines input/output schema, checks permissions, calls the AI client, returns the result
 
 Open both. Notice the separation:
 
@@ -32,12 +34,14 @@ Open both. Notice the separation:
 
 Also take a look at:
 
-- **`includes/Abilities/Summarization/system-instruction.php`** — the prompt sent to the AI
-- **`src/experiments/summarization/index.tsx`** — the React entry point
+- **[`includes/Abilities/Summarization/system-instruction.php`](https://github.com/WordPress/ai/blob/develop/includes/Abilities/Summarization/system-instruction.php)** — the prompt sent to the AI
+- **[`src/experiments/summarization/index.tsx`](https://github.com/WordPress/ai/blob/develop/src/experiments/summarization/index.tsx)** — the React entry point
 
 ## The PHP AI Client API Surface
 
 `wp_ai_client_prompt()` is the entry point you'll use everywhere in this workshop. It returns a fluent builder object — `generate_text()` is the method you'll see most, but it's one of many. Quick orientation before we write any code.
+
+> **No extra plugin to install.** The PHP AI Client and `wp_ai_client_prompt()` ship in **WordPress 7.0 core**, and the Abilities API is in core too (PHP since 6.9, JS in 7.0). The only plugins on your blueprint are the provider plugins (Anthropic / OpenAI / Google) — everything else below is core API.
 
 **Three layers, one builder:**
 
@@ -45,7 +49,7 @@ Also take a look at:
 - The **provider plugins** (`ai-provider-for-anthropic`, `ai-provider-for-openai`, `ai-provider-for-google`) implement a `ProviderInterface` plus per-capability model contracts and register themselves with the SDK. They don't add or override builder methods — the SDK routes to them.
 - **WordPress 7.0 core** ships a thin snake_case wrapper, `WP_AI_Client_Prompt_Builder`, that converts SDK exceptions into `WP_Error` and uses the WP HTTP API for transport. That wrapper is what `wp_ai_client_prompt()` hands you.
 
-Because the SDK owns the public surface, the same `->generate_image()` call works regardless of which provider you have configured — the SDK routes the request to whichever registered provider declares image-generation support.
+Because the SDK owns the public surface, the same builder call works regardless of which provider you have configured — the SDK routes the request to whichever registered provider declares support for that capability. Use `is_supported_for_*()` first if you're not sure your configured provider can fulfill the request.
 
 **What the builder offers:**
 
@@ -58,10 +62,11 @@ Because the SDK owns the public surface, the same `->generate_image()` call work
 A typical chain:
 
 ```php
-$image = wp_ai_client_prompt( 'A cyberpunk surfer on the Tagus river at sunset.' )
-    ->using_temperature( 0.6 )
-    ->as_output_media_aspect_ratio( '16:9' )
-    ->generate_image();
+$summary = wp_ai_client_prompt( 'List three things Portugal is famous for.' )
+    ->using_system_instruction( 'Respond in a single short sentence per item, no preamble.' )
+    ->using_temperature( 0.4 )
+    ->using_max_tokens( 200 )
+    ->generate_text();
 ```
 
 We'll stick with `generate_text()` for the rest of the workshop, but keep the wider surface in the back of your mind for the hackathon.
