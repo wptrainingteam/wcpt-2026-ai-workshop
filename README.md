@@ -12,11 +12,11 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
 2. **Create a site from the blueprint** — Download the [`blueprint.json`](https://raw.githubusercontent.com/wptrainingteam/wcpt-2026-ai-workshop/trunk/blueprint.json) file from this repository. In Studio, click **Add site → Start from a blueprint → Choose blueprint file** and select the downloaded file.
 
-   When the **Add a site** dialog appears, expand **Advanced settings** and set the WordPress version to **7.0-RC3** (listed under Beta & Nightly in the version dropdown). All other settings can be left as their defaults.
+   When the **Add a site** dialog appears, expand **Advanced settings** and set the WordPress version to **7.0-RC4** (listed under Beta & Nightly in the version dropdown). All other settings can be left as their defaults.
 
-   ![Studio Add a site dialog with WordPress version set to 7.0-RC3](assets/manually-set-version.png)
+   ![Studio Add a site dialog with WordPress version set to 7.0-RC4](assets/manually-set-version.png)
 
-   > **Important:** The site will fail to be created if the WordPress version is not set to 7.0-RC3.
+   > **Important:** The site will fail to be created if the WordPress version is not set to 7.0-RC4.
 
    Once the version is set, click **Add site**. Studio will install all required plugins and the workshop plugin with everything activated and ready to go.
 
@@ -42,7 +42,7 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
 **Not using Studio?** For any other local WordPress installation you will need:
 
-- **[WordPress Beta Tester](https://wordpress.org/plugins/wordpress-beta-tester/)** — install and activate it, then go to **Tools → Beta Testing** and switch to the WordPress 7.0 RC channel to update your site to 7.0 RC3.
+- **[WordPress Beta Tester](https://wordpress.org/plugins/wordpress-beta-tester/)** — install and activate it, then go to **Tools → Beta Testing** and switch to the WordPress 7.0 RC channel to update your site to 7.0 RC4.
 - **[AI plugin](https://wordpress.org/plugins/ai/)** — install and activate from the WordPress plugin directory.
 - **This workshop plugin** — clone the repo into your `wp-content/plugins/` directory and activate it:
 
@@ -62,7 +62,7 @@ Thanks for joining us today! We have 3.5 hours together — about 90 minutes of 
 
 ## What Are We Building?
 
-WordPress 7.0 RC3 brings together three AI building blocks for the first time:
+WordPress 7.0 RC4 brings together three AI building blocks for the first time:
 
 - **PHP AI Client** — new in 7.0 core: a provider-agnostic PHP SDK for talking to AI models (`wp_ai_client_prompt()`)
 - **Abilities API** — server-side PHP shipped in 6.9; the JavaScript client API (`@wordpress/abilities`) is new in 7.0

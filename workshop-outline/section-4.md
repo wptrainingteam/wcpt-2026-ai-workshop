@@ -47,7 +47,7 @@ function wcpt_enqueue_script_modules() {
 	}
 	$assets = require $asset_file;
 
-	// Required as of WordPress 7.0 RC3 — the script-module loader does not
+	// Required as of WordPress 7.0 RC4 — the script-module loader does not
 	// auto-register these yet. Re-test after each RC; remove these two lines
 	// (and the explainer below) once they're registered automatically.
 	wp_enqueue_script_module( '@wordpress/core-abilities' );
