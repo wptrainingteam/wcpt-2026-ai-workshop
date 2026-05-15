@@ -119,12 +119,13 @@ If an attendee's environment refuses to load the script module, point them to th
 
 ### Section 5 — MCP Demo (10 min)
 
-**Goal:** Show that registered abilities are already MCP-accessible — no extra code.
+**Goal:** Show the payoff of the `meta.mcp.public` opt-in attendees added in Section 3 — the ability is reachable by an external AI agent without any further code.
 
 **Talking points:**
 - MCP is an open protocol — not WordPress-specific, not Anthropic-specific
-- "You wrote zero MCP code. The Abilities API did it for you."
+- "One line of opt-in — `meta.mcp.public => true` — and the Abilities API + MCP Adapter handle the rest."
 - Point to the MCP endpoint URL: `/wp-json/wp-abilities/v1/mcp`
+- Heads-up for attendees: on the default MCP server the ability is reached through the adapter's `discover-abilities` / `execute-ability` meta-tools — agents won't see `wcpt/summarization` listed directly in `tools/list`. Worth saying out loud before showing the Claude Desktop tool list, so it doesn't look broken.
 
 **If the demo fails:**
 - Have a screen recording ready as a backup

@@ -79,8 +79,14 @@ function wcpt_register_summarization_ability() {
 			'execute_callback'    => 'wcpt_execute_summarization',
 			// `show_in_rest => true` is what auto-creates the REST endpoint
 			// at /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run.
+			// `mcp.public => true` opts the ability into the MCP Adapter's
+			// default server so AI agents can discover and execute it. The
+			// value must be the boolean `true` — `1` or `'true'` do not opt in.
 			'meta'                => array(
 				'show_in_rest' => true,
+				'mcp'          => array(
+					'public' => true,
+				),
 			),
 		)
 	);
@@ -95,6 +101,15 @@ POST /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run
 ```
 
 The route follows the pattern `/<namespace>/<ability-slug>/run` — so the `wcpt/summarization` ability becomes `/wp-abilities/v1/abilities/wcpt/summarization/run`. (For comparison, the reference summarization ability in the WordPress/ai plugin is registered as `ai/summarization` and lives at `/wp-abilities/v1/abilities/ai/summarization/run`.) We'll hit this endpoint with `curl` in a moment to confirm the ability works before we touch any JavaScript.
+
+### Why `meta.mcp.public`?
+
+By default, registered abilities are *not* visible to MCP clients — they're only reachable over REST. The `'mcp' => array( 'public' => true )` line opts this ability into the MCP Adapter's default server, which is what lets AI agents like Claude Desktop and Cursor discover and call it. We'll see this in action in Section 5; for now just know that the flag is the one-line opt-in that makes it possible.
+
+Two gotchas worth flagging:
+
+- The value has to be the boolean `true`. `1`, `'1'`, and `'true'` do *not* opt in — the MCP Adapter checks for the boolean specifically.
+- The MCP Adapter is a separate package. Attendee sites in this workshop don't have it installed (the presenter's demo site does), so the opt-in is a no-op locally until something is listening for it. That's fine — register correctly now, and the ability is ready the moment an MCP server is present.
 
 ### Confirm It Registered
 
