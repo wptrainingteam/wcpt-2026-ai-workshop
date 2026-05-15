@@ -4,19 +4,19 @@
 
 > **Presenter setup note.** The workshop blueprint does **not** bundle the [`mcp-adapter`](https://github.com/WordPress/mcp-adapter) package — it's only needed for this demo, not for attendees to follow along. Before running this section, install and activate `mcp-adapter` on your demo site (it's the package that bridges the Abilities API to the `/wp-json/wp-abilities/v1/mcp` MCP endpoint). Attendee sites do not need it.
 
-We've built a working ability callable from the REST API and from the block editor. Now let's see something interesting: because we registered it through the Abilities API, it's already available to AI agents via the **Model Context Protocol (MCP)** — with no extra code.
+We've built a working ability callable from the REST API and from the block editor. Now let's see the payoff of one line you wrote back in Section 3 — `'mcp' => array( 'public' => true )` — which makes our ability available to AI agents via the **Model Context Protocol (MCP)**.
 
 ## What is MCP?
 
 The [Model Context Protocol](https://modelcontextprotocol.io/) is an open standard that lets AI agents (like Claude Desktop, Cursor, or any MCP-compatible client) discover and call tools on external systems.
 
-The WordPress Abilities API is MCP-compatible by design. Every ability you register is automatically exposed as an MCP tool at:
+The WordPress Abilities API is MCP-compatible by design, but exposure is opt-in. When `meta.mcp.public` is `true` on an ability and the MCP Adapter package is active on the site, the adapter exposes a default MCP server at:
 
 ```
 /wp-json/wp-abilities/v1/mcp
 ```
 
-That means our `wcpt/summarization` ability can be called by an AI agent — not just by a human clicking a button in the editor.
+A small but important detail: on the default server, your ability isn't surfaced as its own top-level MCP tool. Instead, the adapter publishes three generic meta-tools — `mcp-adapter/discover-abilities`, `mcp-adapter/get-ability-info`, and `mcp-adapter/execute-ability` — and agents use those to find and run `wcpt/summarization`. The agent's tool list will show the adapter's tools, not yours directly; that's expected.
 
 ## Live Demo
 
@@ -31,7 +31,7 @@ This is why the three-layer architecture matters:
 
 - **PHP** defines what the ability does and enforces permissions
 - **JS** gives humans a UI to trigger it
-- **MCP** makes it available to automated agents without any additional work
+- **MCP** makes it available to automated agents via a one-line opt-in (`meta.mcp.public`)
 
 The same Ability. Three different callers.
 

@@ -36,7 +36,7 @@
 
 - **PHP AI Client** (new in core 7.0) — `wp_ai_client_prompt()` — talk to any AI provider with one API
 - **Abilities API** — `wp_register_ability()` — PHP/REST in 6.9, JavaScript client API in 7.0
-- **MCP** — via the `mcp-adapter` package (bundled with the AI plugin) — abilities auto-exposed to agents
+- **MCP** — via the `mcp-adapter` package (bundled with the AI plugin) — abilities exposed to agents via a `meta.mcp.public` opt-in
 
 ---
 
@@ -189,12 +189,12 @@ const summary = await executeAbility("wcpt/summarization", {
 
 - Model Context Protocol — open standard for AI agent tool use
 - Any MCP-compatible client (Claude Desktop, Cursor) can discover + call tools
-- WordPress exposes registered abilities at `/wp-json/wp-abilities/v1/mcp`
+- The MCP Adapter publishes abilities opted in via `meta.mcp.public` at `/wp-json/wp-abilities/v1/mcp`
 
 ### The Key Point
 
-- You wrote zero MCP code
-- The Abilities API did it for you
+- One line of opt-in: `'mcp' => array( 'public' => true )`
+- The Abilities API + MCP Adapter handle discovery and invocation
 - Same ability. Three callers: human UI, REST API, AI agent
 
 ### Live Demo

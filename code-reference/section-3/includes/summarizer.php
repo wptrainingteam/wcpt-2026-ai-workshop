@@ -60,8 +60,14 @@ function wcpt_register_summarization_ability() {
 			'execute_callback'    => 'wcpt_execute_summarization',
 			// `show_in_rest => true` is what auto-creates the REST endpoint
 			// at /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run.
+			// `mcp.public => true` opts the ability into the MCP Adapter's
+			// default server so AI agents can discover and execute it. The
+			// value must be the boolean `true` — `1` or `'true'` do not opt in.
 			'meta'                => array(
 				'show_in_rest' => true,
+				'mcp'          => array(
+					'public' => true,
+				),
 			),
 		)
 	);

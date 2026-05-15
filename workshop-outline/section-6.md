@@ -6,7 +6,7 @@ You have 2 hours. Use the same three-layer pattern from the workshop to build so
 1. Build the prompt with the PHP AI Client (`wp_ai_client_prompt( $prompt )->generate_text()`) inside an execute callback
 2. Register that callback as an ability (`wp_register_ability`) with input/output schemas
 3. Call the ability from the block editor in JS (`executeAbility` from `@wordpress/abilities`)
-4. **MCP comes free** — the moment your ability is registered, it's exposed as an MCP tool at `/wp-json/wp-abilities/v1/mcp` for Claude Desktop, Cursor, and any other MCP client
+4. **MCP is one line away** — add `'mcp' => array( 'public' => true )` to your ability's `meta` (as we did for `wcpt/summarization` in Section 3) and the MCP Adapter exposes it at `/wp-json/wp-abilities/v1/mcp` for Claude Desktop, Cursor, and any other MCP client
 
 ## Where to Start
 
