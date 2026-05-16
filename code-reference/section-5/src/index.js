@@ -4,7 +4,24 @@ import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { serialize, createBlock } from '@wordpress/blocks';
 import { Button, SelectControl, __experimentalVStack as VStack } from '@wordpress/components';
-import apiFetch from '@wordpress/api-fetch';
+
+// `@wordpress/abilities` ships only as a runtime ES module via the WordPress
+// script module loader — it's not available as a classic script and webpack
+// can't resolve it at build time. We use a top-level dynamic `import()` and
+// tell webpack to leave it alone with `/* webpackIgnore: true */`. The
+// browser fetches the module at runtime via the script module loader, which
+// is the same reason the PHP side enqueues this file with
+// `wp_enqueue_script_module()` and declares `@wordpress/abilities` as a
+// dependency.
+//
+// Needed until https://github.com/WordPress/gutenberg/issues/75196 is fixed.
+const {
+	registerAbility,
+	registerAbilityCategory,
+	getAbilities,
+	executeAbility,
+	store: abilitiesStore,
+} = await import( /* webpackIgnore: true */ '@wordpress/abilities' );
 
 const SummarizationPlugin = () => {
 	const [ isLoading, setIsLoading ] = useState( false );
@@ -24,6 +41,23 @@ const SummarizationPlugin = () => {
 	// `insertBlock` here — the write counterpart to the read above.
 	const { insertBlock } = useDispatch( 'core/block-editor' );
 
+	// Optional — uncomment to read the registered abilities reactively from
+	// the abilities data store. Useful when building UIs that list or branch
+	// on what's registered.
+	//
+	// const abilities = useSelect(
+	// 	( select ) => select( abilitiesStore ).getAbilities(),
+	// 	[]
+	// );
+	//
+	// const dataAbilities = useSelect(
+	// 	( select ) =>
+	// 		select( abilitiesStore ).getAbilities( {
+	// 			category: 'wcpt-workshop',
+	// 		} ),
+	// 	[]
+	// );
+
 	const handleClick = async () => {
 		setIsLoading( true );
 
@@ -33,22 +67,14 @@ const SummarizationPlugin = () => {
 		// expects.
 		const content = serialize( blocks );
 
-		// `apiFetch` hits the REST endpoint WordPress created from our
-		// ability's schema. The `input` wrapper is the REST contract the
-		// Abilities API generates; the ability's return value comes back
-		// on `response.output`.
-		const response = await apiFetch( {
-			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
-			method: 'POST',
-			data: {
-				input: {
-					content,
-					length,
-				},
-			},
+		// `executeAbility` calls the REST endpoint WordPress created from
+		// our ability's schema. The second argument maps to the registered
+		// `input_schema`. The return value is whatever `output_schema`
+		// declares — a string here.
+		const summary = await executeAbility( 'wcpt/summarization', {
+			content,
+			length,
 		} );
-
-		const summary = response.output;
 
 		// Build the inner paragraph first, then wrap it in a quote so the
 		// summary is visually distinct from the post's regular content.

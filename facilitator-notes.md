@@ -11,7 +11,7 @@
 - Confirm your demo machine is running WordPress Studio with WP 7.0 RC2
 - Have the WordPress/ai plugin installed and Summarization experiment enabled
 - Have your own API key configured and tested — confirm a summary generates
-- Have Claude Desktop (or Cursor) connected to the site via MCP for the Section 5 demo
+- Have Claude Desktop (or Cursor) connected to the site via MCP for the Section 6 demo (optional)
 - Load the WP Playground blueprint link and confirm it works as a fallback
 - Have the `wcpt-2026-ai-workshop` repo cloned and dependencies installed
 - Cue up the source files you'll be navigating in Section 1
@@ -25,12 +25,13 @@
 | 1 | Tour AI Experiments Plugin | 10 min | 0:10 |
 | 2 | Scaffold + AI API | 20 min | 0:30 |
 | 3 | Register the Ability | 20 min | 0:50 |
-| 4 | Block Editor Integration | 25 min | 1:15 |
-| 5 | MCP Demo | 10 min | 1:25 |
-| Break | — | 5 min | 1:30 |
-| 6 | Hackathon | 2 hrs | 3:30 |
+| 4 | Block Editor Integration (`apiFetch`) | 20 min | 1:10 |
+| 5 | *Optional* — `@wordpress/abilities` rebuild | 10 min (or skip) | 1:20 |
+| 6 | *Optional* — MCP Demo | 10 min (or skip) | 1:30 |
+| Break | — | 5 min | 1:35 |
+| 7 | *Optional* — Hackathon | up to 2 hrs | 3:35 |
 
-Instruction (Sections 1–5 + break) lands at 1:30 to leave a full 2 hours for the hackathon. If sections run long, trim Section 5 first — it's demo-only and the audience has already seen the pattern.
+Required path: Sections 1–4. Sections 5, 6, and the hackathon are bonus material. If the room is moving fast, walk through Section 5 to show the WP-native alternative; if it's running tight, skip straight from Section 4 to the MCP demo or the wrap-up. Trim Sections 5/6 first if you need to recover time — attendees have a complete, working feature at the end of Section 4.
 
 ---
 
@@ -77,45 +78,64 @@ Instruction (Sections 1–5 + break) lands at 1:30 to leave a full 2 hours for t
 - Show the Abilities Explorer (Settings → AI → Abilities Explorer) to visualize what was registered
 
 **Common sticking points:**
-- `curl` authentication failing → make sure they're using an Application Password, not their login password
+- `wp.apiFetch is not a function` in the console → they're on the front end or inside the post-editor iframe. Have them switch to **Posts → All Posts** (or any plain wp-admin page) and rerun.
 - REST endpoint 404 → Abilities API not available, check WP version
-- `is_wp_error` returning true → usually a rate limit or invalid key, not a code error
+- `response.output` is `undefined` → they forgot the `input` wrapper in the `data` payload, or the request errored before returning. Check the Network tab for the response body.
+- `is_wp_error` returning true on the server → usually a rate limit or invalid key, not a code error
 
 ---
 
-### Section 4 — Block Editor Integration (25 min)
+### Section 4 — Block Editor Integration (20 min)
 
-**Goal:** Button in sidebar that generates and inserts a summary block.
+**Goal:** Button in sidebar that generates and inserts a summary block, talking to the same REST endpoint they hit from the console in Section 3.
 
 **Talking points:**
 - `PluginPostStatusInfo` is a SlotFill — it renders into a designated slot in the editor sidebar without modifying core templates
-- `executeAbility()` from `@wordpress/abilities` handles the REST call, authentication, and error handling — much cleaner than raw `apiFetch`
+- `apiFetch` is the same thing as `wp.apiFetch` from Section 3, now imported into the plugin's JS. Same path, same `input` wrapper, same `response.output` shape.
+- The enqueue is a plain `wp_enqueue_script()`. `@wordpress/scripts` writes the dependency array into `index.asset.php` — `wp-api-fetch`, `wp-plugins`, `wp-editor`, etc. all come along for free. No script-module loader, no dynamic import, no shim enqueues.
 - `insertBlock` at position `0` puts it at the top of the content, matching what the reference plugin does
+- We hook on `enqueue_block_editor_assets` — it only fires in the block editor, so no screen check is needed.
+
+**Why we lead with `apiFetch` instead of `@wordpress/abilities`:**
+
+The first delivery of this workshop ran the abilities-package version here and the script-module dance lost the room. The simpler tracer bullet — plain enqueue, one classic import, one REST call — gets to a working AI feature in the editor with much less ceremony. If someone asks "is this the WordPress way?", say: it *is* one of two supported paths, and Section 5 shows the other one with its tradeoffs.
+
+**Common sticking points:**
+- Button appears but nothing happens → check browser console for JS errors, likely a build wasn't triggered (`npm start` not running)
+- `response.output` is `undefined` → they forgot the `input` wrapper in the `data` payload, or the request errored before returning. Show them the Network tab response body.
+- 403 / `rest_forbidden` → user lacks `edit_posts`. The permission_callback we wrote in Section 3 is doing its job.
+- Block inserts but is empty → `serialize( blocks )` returned empty string — confirm there's actual content in the editor
+
+---
+
+### Section 5 — *Optional* `@wordpress/abilities` rebuild (10 min)
+
+**Goal:** Show the WordPress-native client for the same feature and explain why we didn't lead with it. Skip if running tight on time — attendees already have a working feature.
+
+**Talking points:**
+- We're calling the *same* REST endpoint. The difference is purely on the JavaScript side: `executeAbility` removes the `input` wrapper, removes the `response.output` unwrap, and surfaces typed errors (`ability_permission_denied`, `ability_invalid_input`, `ability_invalid_output`).
+- It also gives you a `useSelect`-able data store of registered abilities and a JS API for registering them — useful if your UI needs to branch on what's available.
+- Trade-off: the package is published only as a runtime ES module via the WordPress script module loader. That forces the more involved enqueue + the top-level `await import( /* webpackIgnore: true */ ... )`.
 
 **The "weird" enqueue + dynamic import — be ready to explain this clearly:**
 
-This is the part that confuses people. Walk through it deliberately:
+Walk through it deliberately:
 
 - `@wordpress/scripts` builds our file as a *classic* script, not an ES module. But `@wordpress/abilities` is published *only* through the WordPress script module loader — it isn't a classic script and webpack can't resolve it at build time.
 - To make `@wordpress/abilities` available we have to enqueue our file with `wp_enqueue_script_module()` and declare `@wordpress/abilities` as a script-module dependency. So we end up with a classic-script body enqueued through the script-module system. Weird, but correct.
 - On the JS side we use a top-level `await import( /* webpackIgnore: true */ '@wordpress/abilities' )`. The `webpackIgnore` comment tells webpack "don't resolve this at build time — leave it alone." The browser then fetches it at runtime via the script module loader.
-- We hook on `enqueue_block_editor_assets` — it only fires in the block editor, so no screen check is needed.
 - The two `wp_enqueue_script_module( '@wordpress/core-abilities' / '@wordpress/abilities' )` shim calls go away once 7.0 ships and these auto-register.
 
 If someone asks "why not just import it normally?" the one-liner is: *the package isn't classic-script-compatible and webpack can't see it; the script module loader is the only way in.*
 
 **Common sticking points:**
-- Button appears but nothing happens → check browser console for JS errors, likely a build wasn't triggered (`npm start` not running)
 - `executeAbility` is undefined → either the dynamic `await import()` failed (check the Network tab for a 404 on `@wordpress/abilities`) or they kept a static `import { executeAbility } from '@wordpress/abilities'` and webpack tried to resolve it at build time. Confirm they're using the `await import( /* webpackIgnore: true */ ... )` pattern.
 - Webpack build error mentioning `@wordpress/abilities` not found → the `/* webpackIgnore: true */` comment is missing or malformed (must be inside the `import()` parentheses, not on a preceding line).
-- Block inserts but is empty → `serialize( blocks )` returned empty string — confirm there's actual content in the editor
-
-**Fallback if script modules misbehave on the day:**
-If an attendee's environment refuses to load the script module, point them to the `apiFetch` alternative in the `<details>` block at the end of `section-4.md`. It uses classic script enqueue and calls the REST endpoint directly — same behaviour, no module loader required.
+- Module loader misbehaves on a particular machine → fall back to the Section 4 `apiFetch` path, which they already have working.
 
 ---
 
-### Section 5 — MCP Demo (10 min)
+### Section 6 — *Optional* MCP Demo (10 min)
 
 **Goal:** Show the payoff of the `meta.mcp.public` opt-in attendees added in Section 3 — the ability is reachable by an external AI agent without any further code.
 
@@ -133,17 +153,17 @@ If an attendee's environment refuses to load the script module, point them to th
 
 ### Break (5 min)
 
-Announce the hackathon suggestions before the break so attendees can think about what they want to build. Point them to `workshop-outline/section-6.md`.
+Announce the (optional) hackathon suggestions before the break so attendees can think about what they want to build. Point them to `workshop-outline/section-7.md`.
 
 ---
 
-### Section 6 — Hackathon (2 hours)
+### Section 7 — *Optional* Hackathon (up to 2 hours)
 
-**Goal:** Attendees build their own ability using the same pattern.
+**Goal:** Attendees build their own ability using the same pattern. Optional — anyone who'd rather wrap up here has already shipped a working AI feature.
 
 **Facilitation tips:**
 - Walk the room — help individually rather than calling out solutions to the whole group
-- If someone is stuck on the PHP side, suggest starting with `curl` to confirm the ability works before touching JS
+- If someone is stuck on the PHP side, suggest hitting their new ability from the wp-admin console with `wp.apiFetch` (the same pattern from Section 3) to confirm it works before touching JS
 - If someone finishes early, push them toward the MCP stretch goal or connecting it to Claude Desktop
 - Save 5 minutes at the end to call on 2-3 people to share what they built
 

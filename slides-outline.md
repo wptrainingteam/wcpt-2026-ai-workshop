@@ -143,13 +143,20 @@ add_action( 'wp_abilities_api_init', function() {
 });
 ```
 
-### Test It
+### Test It — from the wp-admin console
 
-```bash
-curl -X POST "/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
-  -u "admin:app-password" \
-  -d '{"input": {"content": "...", "length": "short"}}'
+```js
+const response = await wp.apiFetch( {
+    path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+    method: 'POST',
+    data: { input: { content: '...', length: 'short' } },
+} );
+
+console.log( 'Summary:', response.output );
 ```
+
+- No application password needed — cookie + nonce
+- Same `input` wrapper + `response.output` contract our JS will use in Section 4
 
 ---
 
@@ -160,22 +167,25 @@ curl -X POST "/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
 - `registerPlugin` — registers our code with the block editor
 - `PluginPostStatusInfo` SlotFill — renders into the sidebar
 - `useSelect` — reads post content from the editor store
-- `executeAbility` — calls the ability (no manual REST request needed)
+- `apiFetch` — calls the auto-generated REST endpoint (same one we hit from the console in Section 3)
 - `insertBlock` — inserts the summary as a paragraph block
 
-### executeAbility()
+### apiFetch()
 
 ```javascript
-import { executeAbility } from "@wordpress/abilities";
+import apiFetch from "@wordpress/api-fetch";
 
-const summary = await executeAbility("wcpt/summarization", {
-  content,
-  length: "medium",
-});
+const response = await apiFetch( {
+    path: "/wp-abilities/v1/abilities/wcpt/summarization/run",
+    method: "POST",
+    data: { input: { content, length: "medium" } },
+} );
+
+const summary = response.output;
 ```
 
-- Handles REST call, authentication, error handling
-- Returns the ability output directly
+- Plain `wp_enqueue_script` — no script-module loader
+- Same `input` / `response.output` shape as the console test in Section 3
 
 ### The Full Component
 
@@ -183,7 +193,24 @@ const summary = await executeAbility("wcpt/summarization", {
 
 ---
 
-## Section 5: MCP
+## Section 5: *Optional* — `@wordpress/abilities` rebuild
+
+### Same Feature, WP-Native Client
+
+- One REST endpoint, two JS clients
+- `executeAbility( 'wcpt/summarization', { content, length } )` — hides the `input` wrapper, unwraps `response.output`, surfaces typed errors
+- Trade-off: script-module enqueue + `await import( /* webpackIgnore: true */ '@wordpress/abilities' )`
+
+### When to Pick Which
+
+| Need… | Pick… |
+|---|---|
+| Simplest plumbing | `apiFetch` |
+| Typed errors + reactive abilities store | `@wordpress/abilities` |
+
+---
+
+## Section 6: *Optional* — MCP
 
 ### What Is MCP?
 
@@ -203,12 +230,12 @@ const summary = await executeAbility("wcpt/summarization", {
 
 ---
 
-## Section 6: Hackathon
+## Section 7: *Optional* — Hackathon
 
 ### Build Your Own Ability
 
 - Same three-layer pattern: PHP → Ability → JS trigger
-- 2 hours
+- Up to 2 hours (optional — stop here if you'd rather)
 - Pick from the suggested builds or bring your own idea
 
 ### Suggested Builds
@@ -234,7 +261,7 @@ const summary = await executeAbility("wcpt/summarization", {
 
 - A plugin that calls AI providers via a unified PHP client
 - A registered Ability with a REST endpoint — automatically
-- A block editor button powered by `@wordpress/abilities`
+- A block editor button calling that endpoint via `apiFetch` (with an optional `@wordpress/abilities` rebuild for the curious)
 - An MCP-accessible tool — for free
 
 ### Where to Go Next

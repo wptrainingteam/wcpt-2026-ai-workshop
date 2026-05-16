@@ -80,7 +80,7 @@ Then you'll have **2 hours** to build whatever you want using the same patterns.
 
 ## Structure
 
-There are 5 guided sections (1 tour + 3 coding + 1 MCP demo) plus a 2-hour hackathon. Each section builds on the previous one.
+There are 4 required guided sections (1 tour + 3 coding) plus 3 optional sections — a follow-on coding section that rebuilds the editor integration with `@wordpress/abilities`, an MCP demo, and a 2-hour hackathon. Each section builds on the previous one.
 
 The plugin in the repo root is intentionally a scaffold — empty `includes/` and `src/` directories with just a plugin header. You'll fill it in as the workshop progresses. If you fall behind or want a clean start, the `code-reference/` folders contain the complete state of the code at the end of each coding section.
 
@@ -90,11 +90,12 @@ The plugin in the repo root is intentionally a scaffold — empty `includes/` an
 
 | Section                          | Code reference                | State                                  |
 | -------------------------------- | ----------------------------- | -------------------------------------- |
-| 1 — Tour AI Experiments Plugin   | _no code_                     | Exploration only                       |
-| 2 — Scaffold + AI API            | `code-reference/section-2/`   | Plugin stub + smoke-test AI request    |
-| 3 — Register the Ability         | `code-reference/section-3/`   | Ability registered, callable via REST  |
-| 4 — Block Editor Integration     | `code-reference/section-4/`   | Complete plugin                        |
-| 5 — MCP Demo                     | _no code_                     | Presenter-led demo                     |
-| 6 — Hackathon                    | _self-directed_               | Build your own ability                 |
+| 1 — Tour AI Experiments Plugin                | _no code_                     | Exploration only                                |
+| 2 — Scaffold + AI API                         | `code-reference/section-2/`   | Plugin stub + smoke-test AI request             |
+| 3 — Register the Ability                      | `code-reference/section-3/`   | Ability registered, callable via REST           |
+| 4 — Block Editor Integration (`apiFetch`)     | `code-reference/section-4/`   | Complete plugin via the auto-generated endpoint |
+| 5 — *Optional* `@wordpress/abilities` rebuild | `code-reference/section-5/`   | Same feature, script-module + abilities client  |
+| 6 — *Optional* MCP Demo                       | _no code_                     | Presenter-led demo                              |
+| 7 — *Optional* Hackathon                      | _self-directed_               | Build your own ability                          |
 
 Let's go! → [Section 1: Tour the AI Experiments Plugin](./workshop-outline/section-1.md)

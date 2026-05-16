@@ -100,11 +100,11 @@ Setting `'show_in_rest' => true` in `meta` is what tells WordPress to auto-expos
 POST /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run
 ```
 
-The route follows the pattern `/<namespace>/<ability-slug>/run` — so the `wcpt/summarization` ability becomes `/wp-abilities/v1/abilities/wcpt/summarization/run`. (For comparison, the reference summarization ability in the WordPress/ai plugin is registered as `ai/summarization` and lives at `/wp-abilities/v1/abilities/ai/summarization/run`.) We'll hit this endpoint with `curl` in a moment to confirm the ability works before we touch any JavaScript.
+The route follows the pattern `/<namespace>/<ability-slug>/run` — so the `wcpt/summarization` ability becomes `/wp-abilities/v1/abilities/wcpt/summarization/run`. (For comparison, the reference summarization ability in the WordPress/ai plugin is registered as `ai/summarization` and lives at `/wp-abilities/v1/abilities/ai/summarization/run`.) We'll hit this endpoint from the browser console in a moment to confirm the ability works before we touch any plugin JavaScript.
 
 ### Why `meta.mcp.public`?
 
-By default, registered abilities are *not* visible to MCP clients — they're only reachable over REST. The `'mcp' => array( 'public' => true )` line opts this ability into the MCP Adapter's default server, which is what lets AI agents like Claude Desktop and Cursor discover and call it. We'll see this in action in Section 5; for now just know that the flag is the one-line opt-in that makes it possible.
+By default, registered abilities are *not* visible to MCP clients — they're only reachable over REST. The `'mcp' => array( 'public' => true )` line opts this ability into the MCP Adapter's default server, which is what lets AI agents like Claude Desktop and Cursor discover and call it. We'll see this in action in Section 6; for now just know that the flag is the one-line opt-in that makes it possible.
 
 Two gotchas worth flagging:
 
@@ -153,39 +153,39 @@ function wcpt_execute_summarization( $input ) {
 }
 ```
 
-## Test It via the REST API
+## Test It from the wp-admin Console
 
-No JavaScript needed yet — let's confirm the ability is callable via the REST endpoint WordPress created for us automatically.
+No JavaScript file, no curl, no application password — let's confirm the ability is callable directly from the browser DevTools console using `wp.apiFetch`, which is already loaded on every wp-admin page and authenticates with your existing admin session cookie + nonce.
 
-### Create an Application Password
+4. In the WordPress admin, navigate to any non-editor admin screen — **Posts → All Posts** works well. (Avoid the post editor itself: the editor canvas runs inside an iframe and `wp.apiFetch` isn't always available on the top-level `window` there.)
 
-The REST API requires authentication. We'll use an application password — a per-app credential separate from your login password.
+5. Open your browser's DevTools (Cmd+Opt+I on macOS, Ctrl+Shift+I on Windows/Linux) and switch to the **Console** tab.
 
-4. In the WordPress admin, go to **Users → Profile** and scroll to the **Application Passwords** section.
+6. Paste this in and hit Enter. It calls the REST endpoint WordPress generated for our ability, captures the response, and logs the summary:
 
-5. In the **New Application Password Name** field, enter `workshop` (or any label you like) and click **Add New Application Password**.
+```js
+const response = await wp.apiFetch( {
+    path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+    method: 'POST',
+    data: {
+        input: {
+            content: 'WordPress is open source software you can use to create a beautiful website, blog, or app. Beautiful designs, powerful features, and the freedom to build anything you want.',
+            length: 'long',
+        },
+    },
+} );
 
-6. WordPress will display the generated password as a string with spaces (e.g. `abcd 1234 efgh 5678`). **Copy it now** — it won't be shown again. You can keep or strip the spaces; both work.
-
-### Call the Endpoint
-
-7. Use curl from your terminal (replace `yoursite.local` with your Studio site URL, and paste the application password you just generated):
-
-```bash
-curl -X POST "{YOUR_SITE_URL}/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run" \
-  -u "admin:{YOUR_APPLICATION_PASSWORD}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "input": {
-      "content": "WordPress is open source software you can use to create a beautiful website, blog, or app. Beautiful designs, powerful features, and the freedom to build anything you want.",
-      "length": "long"
-    }
-  }'
+console.log( 'Summary:', response.output );
 ```
 
-You should get back a plain-text string — a 4–6 sentence summary of the content (because we asked for `"length": "long"`). 🔥
+You should see `Summary:` followed by a plain-text string — a 4–6 sentence summary of the content (because we asked for `"length": "long"`). 🔥
 
-8. Try it with `"length": "short"` and see the difference — you should get a single-sentence summary instead.
+A couple of contract details worth noticing — these are the same ones our JavaScript will rely on in Section 4:
+
+-   Input goes inside an `input` wrapper. That's the REST contract the Abilities API generates from your `input_schema`.
+-   The response is an object; the ability's return value is on `response.output`. Our `output_schema` declared a string, so `response.output` is a string.
+
+7. Run it again with `length: 'short'` and watch the console — you should get a single-sentence summary instead. Same ability, same content, different input field.
 
 ---
 
