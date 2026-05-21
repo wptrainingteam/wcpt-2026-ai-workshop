@@ -146,17 +146,17 @@ add_action( 'wp_abilities_api_init', function() {
 ### Test It — from the wp-admin console
 
 ```js
-const response = await wp.apiFetch( {
+const summary = await wp.apiFetch( {
     path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
     method: 'POST',
     data: { input: { content: '...', length: 'short' } },
 } );
 
-console.log( 'Summary:', response.output );
+console.log( 'Summary:', summary );
 ```
 
 - No application password needed — cookie + nonce
-- Same `input` wrapper + `response.output` contract our JS will use in Section 4
+- Same `input` wrapper + plain-string response our JS will use in Section 4
 
 ---
 
@@ -175,17 +175,15 @@ console.log( 'Summary:', response.output );
 ```javascript
 import apiFetch from "@wordpress/api-fetch";
 
-const response = await apiFetch( {
+const summary = await apiFetch( {
     path: "/wp-abilities/v1/abilities/wcpt/summarization/run",
     method: "POST",
     data: { input: { content, length: "medium" } },
 } );
-
-const summary = response.output;
 ```
 
 - Plain `wp_enqueue_script` — no script-module loader
-- Same `input` / `response.output` shape as the console test in Section 3
+- Same `input` wrapper + plain-string response as the console test in Section 3
 
 ### The Full Component
 
@@ -198,7 +196,7 @@ const summary = response.output;
 ### Same Feature, WP-Native Client
 
 - One REST endpoint, two JS clients
-- `executeAbility( 'wcpt/summarization', { content, length } )` — hides the `input` wrapper, unwraps `response.output`, surfaces typed errors
+- `executeAbility( 'wcpt/summarization', { content, length } )` — hides the `input` wrapper on the request, surfaces typed errors
 - Trade-off: script-module enqueue + `await import( /* webpackIgnore: true */ '@wordpress/abilities' )`
 
 ### When to Pick Which

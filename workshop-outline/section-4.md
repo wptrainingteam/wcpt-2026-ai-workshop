@@ -1,6 +1,6 @@
 # Section 4 — Block Editor Integration
 
-The REST endpoint works. Now let's wire up a button in the block editor that calls our ability and inserts the summary as a paragraph block. We already used `wp.apiFetch` from the console in Section 3 to hit the auto-generated REST endpoint — we'll use the same `@wordpress/api-fetch` package from our plugin's JavaScript here. Same endpoint, same `input` / `response.output` contract.
+The REST endpoint works. Now let's wire up a button in the block editor that calls our ability and inserts the summary as a paragraph block. We already used `wp.apiFetch` from the console in Section 3 to hit the auto-generated REST endpoint — we'll use the same `@wordpress/api-fetch` package from our plugin's JavaScript here. Same endpoint, same `input` wrapper on the request, same plain-string response.
 
 > **Stuck? Completed code for this section lives at `code-reference/section-4/`** — open it to compare against your own work, not to copy from.
 
@@ -105,7 +105,7 @@ const SummarizationPlugin = () => {
 
 ## Call the Ability
 
-7. Add loading state and call `apiFetch` when the button is clicked. Same endpoint we hit from the console in Section 3, same `input` wrapper, same `response.output` shape:
+7. Add loading state and call `apiFetch` when the button is clicked. Same endpoint we hit from the console in Section 3, same `input` wrapper, same plain-string response:
 
 ```javascript
 const SummarizationPlugin = () => {
@@ -130,9 +130,10 @@ const SummarizationPlugin = () => {
 
 		// `apiFetch` hits the REST endpoint WordPress created from our
 		// ability's schema. The `input` wrapper is the REST contract the
-		// Abilities API generates; the ability's return value comes back
-		// on `response.output`.
-		const response = await apiFetch( {
+		// Abilities API generates; the ability's return value (a string,
+		// per our `output_schema`) comes back as the response body — so
+		// `apiFetch` resolves directly to the summary string.
+		const summary = await apiFetch( {
 			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
 			method: 'POST',
 			data: {
@@ -142,8 +143,6 @@ const SummarizationPlugin = () => {
 				},
 			},
 		} );
-
-		const summary = response.output;
 
 		console.log( 'Summary:', summary );
 		setIsLoading( false );
@@ -196,7 +195,7 @@ const SummarizationPlugin = () => {
 		// expects.
 		const content = serialize( blocks );
 
-		const response = await apiFetch( {
+		const summary = await apiFetch( {
 			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
 			method: 'POST',
 			data: {
@@ -206,8 +205,6 @@ const SummarizationPlugin = () => {
 				},
 			},
 		} );
-
-		const summary = response.output;
 
 		// Build the inner paragraph first, then wrap it in a quote so the
 		// summary is visually distinct from the post's regular content.
@@ -280,7 +277,7 @@ const SummarizationPlugin = () => {
 		// expects.
 		const content = serialize( blocks );
 
-		const response = await apiFetch( {
+		const summary = await apiFetch( {
 			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
 			method: 'POST',
 			data: {
@@ -290,8 +287,6 @@ const SummarizationPlugin = () => {
 				},
 			},
 		} );
-
-		const summary = response.output;
 
 		// Build the inner paragraph first, then wrap it in a quote so the
 		// summary is visually distinct from the post's regular content.
@@ -344,7 +339,7 @@ const SummarizationPlugin = () => {
 13. Replace the hardcoded `'medium'` in the `apiFetch` call with the `length` state:
 
 ```javascript
-const response = await apiFetch( {
+const summary = await apiFetch( {
 	path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
 	method: 'POST',
 	data: {

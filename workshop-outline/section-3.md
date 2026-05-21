@@ -164,7 +164,7 @@ No JavaScript file, no curl, no application password — let's confirm the abili
 6. Paste this in and hit Enter. It calls the REST endpoint WordPress generated for our ability, captures the response, and logs the summary:
 
 ```js
-const response = await wp.apiFetch( {
+const summary = await wp.apiFetch( {
     path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
     method: 'POST',
     data: {
@@ -175,7 +175,7 @@ const response = await wp.apiFetch( {
     },
 } );
 
-console.log( 'Summary:', response.output );
+console.log( 'Summary:', summary );
 ```
 
 You should see `Summary:` followed by a plain-text string — a 4–6 sentence summary of the content (because we asked for `"length": "long"`). 🔥
@@ -183,7 +183,7 @@ You should see `Summary:` followed by a plain-text string — a 4–6 sentence s
 A couple of contract details worth noticing — these are the same ones our JavaScript will rely on in Section 4:
 
 -   Input goes inside an `input` wrapper. That's the REST contract the Abilities API generates from your `input_schema`.
--   The response is an object; the ability's return value is on `response.output`. Our `output_schema` declared a string, so `response.output` is a string.
+-   The response body *is* the ability's return value directly — our `output_schema` declared a string, so `apiFetch` resolves to a string. No `response.output` unwrap needed.
 
 7. Run it again with `length: 'short'` and watch the console — you should get a single-sentence summary instead. Same ability, same content, different input field.
 

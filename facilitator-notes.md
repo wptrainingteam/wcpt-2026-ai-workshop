@@ -80,7 +80,7 @@ Required path: Sections 1–4. Sections 5, 6, and the hackathon are bonus materi
 **Common sticking points:**
 - `wp.apiFetch is not a function` in the console → they're on the front end or inside the post-editor iframe. Have them switch to **Posts → All Posts** (or any plain wp-admin page) and rerun.
 - REST endpoint 404 → Abilities API not available, check WP version
-- `response.output` is `undefined` → they forgot the `input` wrapper in the `data` payload, or the request errored before returning. Check the Network tab for the response body.
+- `apiFetch` returns `undefined` or the request 4xxs → they forgot the `input` wrapper in the `data` payload, or `length` isn't one of the enum values. Check the Network tab for the response body.
 - `is_wp_error` returning true on the server → usually a rate limit or invalid key, not a code error
 
 ---
@@ -91,7 +91,7 @@ Required path: Sections 1–4. Sections 5, 6, and the hackathon are bonus materi
 
 **Talking points:**
 - `PluginPostStatusInfo` is a SlotFill — it renders into a designated slot in the editor sidebar without modifying core templates
-- `apiFetch` is the same thing as `wp.apiFetch` from Section 3, now imported into the plugin's JS. Same path, same `input` wrapper, same `response.output` shape.
+- `apiFetch` is the same thing as `wp.apiFetch` from Section 3, now imported into the plugin's JS. Same path, same `input` wrapper on the request, same plain-string response (because our `output_schema` is `type: 'string'`).
 - The enqueue is a plain `wp_enqueue_script()`. `@wordpress/scripts` writes the dependency array into `index.asset.php` — `wp-api-fetch`, `wp-plugins`, `wp-editor`, etc. all come along for free. No script-module loader, no dynamic import, no shim enqueues.
 - `insertBlock` at position `0` puts it at the top of the content, matching what the reference plugin does
 - We hook on `enqueue_block_editor_assets` — it only fires in the block editor, so no screen check is needed.
@@ -102,7 +102,7 @@ The first delivery of this workshop ran the abilities-package version here and t
 
 **Common sticking points:**
 - Button appears but nothing happens → check browser console for JS errors, likely a build wasn't triggered (`npm start` not running)
-- `response.output` is `undefined` → they forgot the `input` wrapper in the `data` payload, or the request errored before returning. Show them the Network tab response body.
+- `summary` is `undefined` or the request 4xxs → they forgot the `input` wrapper in the `data` payload, or `length` isn't one of the enum values. Show them the Network tab response body.
 - 403 / `rest_forbidden` → user lacks `edit_posts`. The permission_callback we wrote in Section 3 is doing its job.
 - Block inserts but is empty → `serialize( blocks )` returned empty string — confirm there's actual content in the editor
 
@@ -113,7 +113,7 @@ The first delivery of this workshop ran the abilities-package version here and t
 **Goal:** Show the WordPress-native client for the same feature and explain why we didn't lead with it. Skip if running tight on time — attendees already have a working feature.
 
 **Talking points:**
-- We're calling the *same* REST endpoint. The difference is purely on the JavaScript side: `executeAbility` removes the `input` wrapper, removes the `response.output` unwrap, and surfaces typed errors (`ability_permission_denied`, `ability_invalid_input`, `ability_invalid_output`).
+- We're calling the *same* REST endpoint. The difference is purely on the JavaScript side: `executeAbility` removes the `input` wrapper on the request and surfaces typed errors (`ability_permission_denied`, `ability_invalid_input`, `ability_invalid_output`).
 - It also gives you a `useSelect`-able data store of registered abilities and a JS API for registering them — useful if your UI needs to branch on what's available.
 - Trade-off: the package is published only as a runtime ES module via the WordPress script module loader. That forces the more involved enqueue + the top-level `await import( /* webpackIgnore: true */ ... )`.
 

@@ -35,9 +35,10 @@ const SummarizationPlugin = () => {
 
 		// `apiFetch` hits the REST endpoint WordPress created from our
 		// ability's schema. The `input` wrapper is the REST contract the
-		// Abilities API generates; the ability's return value comes back
-		// on `response.output`.
-		const response = await apiFetch( {
+		// Abilities API generates; the ability's return value (a string,
+		// per our `output_schema`) comes back as the response body — so
+		// `apiFetch` resolves directly to the summary string.
+		const summary = await apiFetch( {
 			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
 			method: 'POST',
 			data: {
@@ -47,8 +48,6 @@ const SummarizationPlugin = () => {
 				},
 			},
 		} );
-
-		const summary = response.output;
 
 		// Build the inner paragraph first, then wrap it in a quote so the
 		// summary is visually distinct from the post's regular content.

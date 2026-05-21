@@ -2,7 +2,7 @@
 
 **This section is optional.** You already have a working summarizer — Section 4 wired up the SlotFill, called the REST endpoint with `apiFetch`, and inserted the result as a quote block. This section rebuilds the *exact same* feature on top of the [`@wordpress/abilities`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-abilities/) JavaScript client.
 
-Why bother? `@wordpress/abilities` is the WordPress-native way to call abilities from the editor. It hides the `input` / `response.output` REST envelope, surfaces typed error codes (`ability_permission_denied`, `ability_invalid_input`, `ability_invalid_output`), and exposes a reactive data store so you can read registered abilities in the UI. The trade-off is what makes this section optional: `@wordpress/abilities` ships only as a runtime ES module via the WordPress script module loader, which means a more involved enqueue and a top-level dynamic `import()` in your bundle.
+Why bother? `@wordpress/abilities` is the WordPress-native way to call abilities from the editor. It hides the `input` wrapper on the request side, surfaces typed error codes (`ability_permission_denied`, `ability_invalid_input`, `ability_invalid_output`), and exposes a reactive data store so you can read registered abilities in the UI. The trade-off is what makes this section optional: `@wordpress/abilities` ships only as a runtime ES module via the WordPress script module loader, which means a more involved enqueue and a top-level dynamic `import()` in your bundle.
 
 > **Stuck? Completed code for this section lives at `code-reference/section-5/`** — open it to compare against your own work, not to copy from.
 
@@ -115,11 +115,10 @@ const SummarizationPlugin = () => {
 		const content = serialize( blocks );
 
 		// `executeAbility` calls the same REST endpoint we hit with
-		// `apiFetch` in Section 4 — but it removes the `input` wrapper and
-		// the `response.output` unwrap step, and surfaces typed error codes
-		// on failure. The second argument maps directly to the registered
-		// `input_schema`; the return value is whatever `output_schema`
-		// declares — a string here.
+		// `apiFetch` in Section 4 — but it removes the `input` wrapper
+		// and surfaces typed error codes on failure. The second argument
+		// maps directly to the registered `input_schema`; the return
+		// value is whatever `output_schema` declares — a string here.
 		const summary = await executeAbility( 'wcpt/summarization', {
 			content,
 			length,
