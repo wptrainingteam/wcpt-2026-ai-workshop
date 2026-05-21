@@ -16,14 +16,14 @@ The WordPress Abilities API is MCP-compatible by design, but exposure is opt-in.
 /wp-json/wp-abilities/v1/mcp
 ```
 
-A small but important detail: on the default server, your ability isn't surfaced as its own top-level MCP tool. Instead, the adapter publishes three generic meta-tools — `mcp-adapter/discover-abilities`, `mcp-adapter/get-ability-info`, and `mcp-adapter/execute-ability` — and agents use those to find and run `wcpt/summarization`. The agent's tool list will show the adapter's tools, not yours directly; that's expected.
+A small but important detail: on the default server, your ability isn't surfaced as its own top-level MCP tool. Instead, the adapter publishes three generic meta-tools — `mcp-adapter/discover-abilities`, `mcp-adapter/get-ability-info`, and `mcp-adapter/execute-ability` — and agents use those to find and run `wp-ai-workshop/summarization`. The agent's tool list will show the adapter's tools, not yours directly; that's expected.
 
 ## Live Demo
 
 Watch as Claude Desktop:
 
 1. Connects to the WordPress site via MCP
-2. Discovers the available tools (including our `wcpt/summarization` ability)
+2. Discovers the available tools (including our `wp-ai-workshop/summarization` ability)
 3. Calls the ability on a real post — no UI interaction required
 4. Returns the summary, which the agent can use however it needs to
 

@@ -13,12 +13,12 @@ Reference: [PHP AI Client (WordPress/php-ai-client)](https://github.com/WordPres
 ```php
 <?php
 /**
- * Plugin Name: WC Portugal 2026 — Content Summarizer
- * Description: A hands-on workshop plugin for WordCamp Portugal 2026.
+ * Plugin Name: WordPress AI Workshop — Content Summarizer
+ * Description: A hands-on workshop plugin teaching the WordPress 7.0 AI Building Blocks.
  * Version:     0.1.0
  * Requires at least: 7.0
  * Requires PHP:      8.1
- * Text Domain: wcpt
+ * Text Domain: wp-ai-workshop
  */
 ```
 
@@ -57,7 +57,7 @@ Before wiring up any WordPress APIs, let's confirm the AI client is working with
  * Hooks into `admin_notices` so the result is visible on every admin screen.
  * Removed at the start of Section 3 once the real ability replaces it.
  */
-function wcpt_test_ai_connection() {
+function wp_ai_workshop_test_ai_connection() {
 	// Restrict to admins; we don't want every editor seeing the smoke test.
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
@@ -68,7 +68,7 @@ function wcpt_test_ai_connection() {
 	// result is a string on success or a WP_Error on failure (bad key, rate
 	// limit, network error, etc.).
 	$response = wp_ai_client_prompt(
-		'Say hello to the WordCamp Portugal 2026 workshop attendees in exactly one sentence.'
+		'Say hello to the WordPress AI Building Blocks workshop attendees in exactly one sentence.'
 	)->generate_text();
 
 	if ( is_wp_error( $response ) ) {
@@ -84,7 +84,7 @@ function wcpt_test_ai_connection() {
 		esc_html( $response )
 	);
 }
-add_action( 'admin_notices', 'wcpt_test_ai_connection' );
+add_action( 'admin_notices', 'wp_ai_workshop_test_ai_connection' );
 ```
 
 6. Load any admin page. You should see a green notice with a one-sentence greeting from your AI model. 🎉
@@ -97,7 +97,7 @@ Before we move on, let's see what `wp_ai_client_prompt()` actually hands back. I
 
 ```php
 $response = wp_ai_client_prompt(
-    'Say hello to the WordCamp Portugal 2026 workshop attendees in exactly one sentence.'
+    'Say hello to the WordPress AI Building Blocks workshop attendees in exactly one sentence.'
 )->generate_text();
 ```
 

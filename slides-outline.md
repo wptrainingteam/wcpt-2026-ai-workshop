@@ -1,13 +1,13 @@
 # Slides Outline — Stop Doing It Yourself
 
-### WordCamp Portugal 2026
+### WordPress AI Building Blocks Workshop
 
 ---
 
 ## Title Slide
 
 - Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
-- WordCamp Portugal 2026 | Saturday 3:00 PM
+- WordPress AI Building Blocks Workshop | Saturday 3:00 PM
 - Ryan Welcher — Developer Advocate, Automattic
 - JuanMa Garrido — Developer Advocate, Automattic
 
@@ -125,7 +125,7 @@ $response = wp_ai_client_prompt( 'Your prompt here' )->generate_text();
 
 ```php
 add_action( 'wp_abilities_api_categories_init', function() {
-    wp_register_ability_category( 'wcpt', [ 'label' => 'WC Portugal 2026' ] );
+    wp_register_ability_category( 'wp-ai-workshop', [ 'label' => 'WordPress AI Workshop' ] );
 });
 ```
 
@@ -133,12 +133,12 @@ add_action( 'wp_abilities_api_categories_init', function() {
 
 ```php
 add_action( 'wp_abilities_api_init', function() {
-    wp_register_ability( 'wcpt/summarization', [
-        'category'            => 'wcpt',
+    wp_register_ability( 'wp-ai-workshop/summarization', [
+        'category'            => 'wp-ai-workshop',
         'input_schema'        => [ /* content, length */ ],
         'output_schema'       => [ 'type' => 'string' ],
         'permission_callback' => fn() => current_user_can( 'edit_posts' ),
-        'execute_callback'    => 'wcpt_execute_summarization',
+        'execute_callback'    => 'wp_ai_workshop_execute_summarization',
     ]);
 });
 ```
@@ -147,7 +147,7 @@ add_action( 'wp_abilities_api_init', function() {
 
 ```js
 const summary = await wp.apiFetch( {
-    path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+    path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
     method: 'POST',
     data: { input: { content: '...', length: 'short' } },
 } );
@@ -176,7 +176,7 @@ console.log( 'Summary:', summary );
 import apiFetch from "@wordpress/api-fetch";
 
 const summary = await apiFetch( {
-    path: "/wp-abilities/v1/abilities/wcpt/summarization/run",
+    path: "/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run",
     method: "POST",
     data: { input: { content, length: "medium" } },
 } );
@@ -196,7 +196,7 @@ const summary = await apiFetch( {
 ### Same Feature, WP-Native Client
 
 - One REST endpoint, two JS clients
-- `executeAbility( 'wcpt/summarization', { content, length } )` — hides the `input` wrapper on the request, surfaces typed errors
+- `executeAbility( 'wp-ai-workshop/summarization', { content, length } )` — hides the `input` wrapper on the request, surfaces typed errors
 - Trade-off: script-module enqueue + `await import( /* webpackIgnore: true */ '@wordpress/abilities' )`
 
 ### When to Pick Which
@@ -224,7 +224,7 @@ const summary = await apiFetch( {
 
 ### Live Demo
 
-- [Claude Desktop calls wcpt/summarization on a post]
+- [Claude Desktop calls wp-ai-workshop/summarization on a post]
 
 ---
 

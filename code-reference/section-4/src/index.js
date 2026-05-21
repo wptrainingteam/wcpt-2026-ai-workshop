@@ -39,7 +39,7 @@ const SummarizationPlugin = () => {
 		// per our `output_schema`) comes back as the response body — so
 		// `apiFetch` resolves directly to the summary string.
 		const summary = await apiFetch( {
-			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+			path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
 			method: 'POST',
 			data: {
 				input: {
@@ -57,7 +57,7 @@ const SummarizationPlugin = () => {
 
 		const quoteBlock = createBlock(
 			'core/quote',
-			{ citation: 'WCPT AI Summarizer' },
+			{ citation: 'WordPress AI Summarizer' },
 			[ paragraphBlock ]
 		);
 
@@ -67,7 +67,7 @@ const SummarizationPlugin = () => {
 	};
 
 	return (
-		<PluginPostStatusInfo className="wcpt-summarization-panel">
+		<PluginPostStatusInfo className="wp-ai-workshop-summarization-panel">
 			<VStack spacing={ 3 } style={ { width: '100%' } }>
 				<SelectControl
 					label="Summary length"
@@ -95,4 +95,4 @@ const SummarizationPlugin = () => {
 	);
 };
 
-registerPlugin( 'wcpt-summarization', { render: SummarizationPlugin } );
+registerPlugin( 'wp-ai-workshop-summarization', { render: SummarizationPlugin } );

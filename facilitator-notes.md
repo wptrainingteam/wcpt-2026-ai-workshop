@@ -1,4 +1,4 @@
-# Facilitator Notes — WordCamp Portugal 2026
+# Facilitator Notes — WordPress AI Building Blocks Workshop
 
 **Session:** Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
 **Duration:** 3 hours 30 minutes | Saturday 3:00 PM WEST
@@ -13,7 +13,7 @@
 - Have your own API key configured and tested — confirm a summary generates
 - Have Claude Desktop (or Cursor) connected to the site via MCP for the Section 6 demo (optional)
 - Load the WP Playground blueprint link and confirm it works as a fallback
-- Have the `wcpt-2026-ai-workshop` repo cloned and dependencies installed
+- Have the `wp-ai-workshop` repo cloned and dependencies installed
 - Cue up the source files you'll be navigating in Section 1
 
 ---
@@ -143,7 +143,7 @@ If someone asks "why not just import it normally?" the one-liner is: *the packag
 - MCP is an open protocol — not WordPress-specific, not Anthropic-specific
 - "One line of opt-in — `meta.mcp.public => true` — and the Abilities API + MCP Adapter handle the rest."
 - Point to the MCP endpoint URL: `/wp-json/wp-abilities/v1/mcp`
-- Heads-up for attendees: on the default MCP server the ability is reached through the adapter's `discover-abilities` / `execute-ability` meta-tools — agents won't see `wcpt/summarization` listed directly in `tools/list`. Worth saying out loud before showing the Claude Desktop tool list, so it doesn't look broken.
+- Heads-up for attendees: on the default MCP server the ability is reached through the adapter's `discover-abilities` / `execute-ability` meta-tools — agents won't see `wp-ai-workshop/summarization` listed directly in `tools/list`. Worth saying out loud before showing the Claude Desktop tool list, so it doesn't look broken.
 
 **If the demo fails:**
 - Have a screen recording ready as a backup

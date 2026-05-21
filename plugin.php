@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: WC Portugal 2026 — Content Summarizer
- * Description: A hands-on workshop plugin for WordCamp Portugal 2026.
+ * Plugin Name: WordPress AI Workshop — Content Summarizer
+ * Description: A hands-on workshop plugin teaching the WordPress 7.0 AI Building Blocks.
  * Version:     0.1.0
  * Requires at least: 7.0
  * Requires PHP:      8.1
- * Text Domain: wcpt
+ * Text Domain: wp-ai-workshop
  */

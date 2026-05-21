@@ -21,12 +21,12 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "url",
-        "url": "https://github.com/wptrainingteam/wcpt-2026-ai-workshop/archive/refs/heads/trunk.zip"
+        "url": "https://github.com/wptrainingteam/wp-ai-workshop/archive/refs/heads/trunk.zip"
       }
     },
     {
       "step": "activatePlugin",
-      "pluginPath": "wcpt-2026-ai-workshop-trunk/plugin.php"
+      "pluginPath": "wp-ai-workshop-trunk/plugin.php"
     },
     {
       "step": "activateTheme",
@@ -35,7 +35,7 @@
     {
       "step": "setSiteOptions",
       "options": {
-        "blogname": "WC Portugal 2026 Workshop"
+        "blogname": "WordPress AI Workshop"
       }
     },
     {

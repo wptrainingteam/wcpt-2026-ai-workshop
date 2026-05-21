@@ -53,7 +53,7 @@ const SummarizationPlugin = () => {
 	// const dataAbilities = useSelect(
 	// 	( select ) =>
 	// 		select( abilitiesStore ).getAbilities( {
-	// 			category: 'wcpt-workshop',
+	// 			category: 'wp-ai-workshop',
 	// 		} ),
 	// 	[]
 	// );
@@ -71,7 +71,7 @@ const SummarizationPlugin = () => {
 		// our ability's schema. The second argument maps to the registered
 		// `input_schema`. The return value is whatever `output_schema`
 		// declares — a string here.
-		const summary = await executeAbility( 'wcpt/summarization', {
+		const summary = await executeAbility( 'wp-ai-workshop/summarization', {
 			content,
 			length,
 		} );
@@ -84,7 +84,7 @@ const SummarizationPlugin = () => {
 
 		const quoteBlock = createBlock(
 			'core/quote',
-			{ citation: 'WCPT AI Summarizer' },
+			{ citation: 'WordPress AI Summarizer' },
 			[ paragraphBlock ]
 		);
 
@@ -94,7 +94,7 @@ const SummarizationPlugin = () => {
 	};
 
 	return (
-		<PluginPostStatusInfo className="wcpt-summarization-panel">
+		<PluginPostStatusInfo className="wp-ai-workshop-summarization-panel">
 			<VStack spacing={ 3 } style={ { width: '100%' } }>
 				<SelectControl
 					label="Summary length"
@@ -122,4 +122,4 @@ const SummarizationPlugin = () => {
 	);
 };
 
-registerPlugin( 'wcpt-summarization', { render: SummarizationPlugin } );
+registerPlugin( 'wp-ai-workshop-summarization', { render: SummarizationPlugin } );

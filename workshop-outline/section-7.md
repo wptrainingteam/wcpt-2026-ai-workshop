@@ -8,7 +8,7 @@ Use the same three-layer pattern from the workshop to build something new.
 1. Build the prompt with the PHP AI Client (`wp_ai_client_prompt( $prompt )->generate_text()`) inside an execute callback
 2. Register that callback as an ability (`wp_register_ability`) with input/output schemas
 3. Call the ability from the block editor in JS — either `apiFetch` against the auto-generated REST endpoint (like Section 4), or `executeAbility` from `@wordpress/abilities` (like the optional Section 5)
-4. **MCP is one line away** — add `'mcp' => array( 'public' => true )` to your ability's `meta` (as we did for `wcpt/summarization` in Section 3) and the MCP Adapter exposes it at `/wp-json/wp-abilities/v1/mcp` for Claude Desktop, Cursor, and any other MCP client
+4. **MCP is one line away** — add `'mcp' => array( 'public' => true )` to your ability's `meta` (as we did for `wp-ai-workshop/summarization` in Section 3) and the MCP Adapter exposes it at `/wp-json/wp-abilities/v1/mcp` for Claude Desktop, Cursor, and any other MCP client
 
 ## Where to Start
 
@@ -48,7 +48,7 @@ If your ability returns structured data (an array or object), define the shape i
 #### Excerpt Generator
 Generate a post excerpt from the full content.
 
-- **Ability:** `wcpt/excerpt-generation`
+- **Ability:** `wp-ai-workshop/excerpt-generation`
 - **Input:** `content` (string), `max_words` (integer, default: 55)
 - **Output:** string
 
@@ -66,7 +66,7 @@ Generate a post excerpt from the full content.
 #### Tag Suggester
 Suggest relevant tags based on post content.
 
-- **Ability:** `wcpt/tag-suggestions`
+- **Ability:** `wp-ai-workshop/tag-suggestions`
 - **Input:** `content` (string), `count` (integer, default: 5)
 - **Output:** array of strings
 
@@ -85,7 +85,7 @@ Suggest relevant tags based on post content.
 #### Meta Description Generator
 Generate an SEO-friendly meta description from title and content.
 
-- **Ability:** `wcpt/meta-description`
+- **Ability:** `wp-ai-workshop/meta-description`
 - **Input:** `title` (string), `content` (string)
 - **Output:** string (target: under 160 characters)
 
@@ -103,7 +103,7 @@ Generate an SEO-friendly meta description from title and content.
 #### Title Variations
 Generate 3 alternative post titles.
 
-- **Ability:** `wcpt/title-variations`
+- **Ability:** `wp-ai-workshop/title-variations`
 - **Input:** `content` (string), `current_title` (string)
 - **Output:** array of strings
 
@@ -121,7 +121,7 @@ Generate 3 alternative post titles.
 #### Tone Analyzer
 Classify the tone and reading level of the content.
 
-- **Ability:** `wcpt/tone-analysis`
+- **Ability:** `wp-ai-workshop/tone-analysis`
 - **Input:** `content` (string)
 - **Output:** object with `tone` and `reading_level`
 
@@ -139,7 +139,7 @@ Classify the tone and reading level of the content.
 #### Content Translator
 Translate post content to another language.
 
-- **Ability:** `wcpt/translate`
+- **Ability:** `wp-ai-workshop/translate`
 - **Input:** `content` (string), `target_language` (string)
 - **Output:** string
 
@@ -157,7 +157,7 @@ Translate post content to another language.
 #### AI Featured Image
 Generate a cover image from the post's title or content and attach it as the featured image.
 
-- **Ability:** `wcpt/featured-image`
+- **Ability:** `wp-ai-workshop/featured-image`
 - **Input:** `prompt` (string), `aspect_ratio` (string, optional)
 - **Output:** object with `attachment_id` (integer) and `url` (string)
 
@@ -179,7 +179,7 @@ Generate a cover image from the post's title or content and attach it as the fea
 #### Comment Moderator
 Classify a comment as spam, appropriate, or needs review.
 
-- **Ability:** `wcpt/moderate-comment`
+- **Ability:** `wp-ai-workshop/moderate-comment`
 - **Input:** `comment` (string), `post_context` (string)
 - **Output:** object with `decision` (enum: spam/appropriate/review) and `reason` (string)
 

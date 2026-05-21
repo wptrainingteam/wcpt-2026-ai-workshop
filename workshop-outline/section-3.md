@@ -10,27 +10,27 @@ Reference: [Abilities API](https://developer.wordpress.org/apis/abilities-api/)
 
 Abilities are organized into categories. Let's register one for our plugin.
 
-1. First, **delete** the `wcpt_test_ai_connection` function and its `add_action` call from `includes/summarizer.php` — it served its purpose. Then add the category registration:
+1. First, **delete** the `wp_ai_workshop_test_ai_connection` function and its `add_action` call from `includes/summarizer.php` — it served its purpose. Then add the category registration:
 
 ```php
 /**
  * Register the workshop's ability category.
  *
  * Categories group abilities in the Abilities Explorer and let JS clients
- * filter with `getAbilities( { category: 'wcpt-workshop' } )`.
+ * filter with `getAbilities( { category: 'wp-ai-workshop' } )`.
  */
-function wcpt_register_ability_category() {
+function wp_ai_workshop_register_ability_category() {
 	wp_register_ability_category(
-		'wcpt-workshop',
+		'wp-ai-workshop',
 		array(
-			'label'       => __( 'WC Portugal 2026', 'wcpt' ),
-			'description' => __( 'Abilities built during the WordCamp Portugal 2026 workshop.', 'wcpt' ),
+			'label'       => __( 'WordPress AI Workshop', 'wp-ai-workshop' ),
+			'description' => __( 'Abilities built during the WordPress AI Building Blocks workshop.', 'wp-ai-workshop' ),
 		)
 	);
 }
 // `wp_abilities_api_categories_init` fires before `wp_abilities_api_init`,
 // so the category exists by the time abilities try to reference it.
-add_action( 'wp_abilities_api_categories_init', 'wcpt_register_ability_category' );
+add_action( 'wp_abilities_api_categories_init', 'wp_ai_workshop_register_ability_category' );
 ```
 
 ## Register the Ability
@@ -39,15 +39,15 @@ add_action( 'wp_abilities_api_categories_init', 'wcpt_register_ability_category'
 
 ```php
 /**
- * Register the wcpt/summarization ability.
+ * Register the wp-ai-workshop/summarization ability.
  */
-function wcpt_register_summarization_ability() {
+function wp_ai_workshop_register_summarization_ability() {
 	wp_register_ability(
-		'wcpt/summarization',
+		'wp-ai-workshop/summarization',
 		array(
-			'label'               => __( 'Summarize Content', 'wcpt' ),
-			'description'         => __( 'Generates a plain-text summary of the provided content.', 'wcpt' ),
-			'category'            => 'wcpt-workshop',
+			'label'               => __( 'Summarize Content', 'wp-ai-workshop' ),
+			'description'         => __( 'Generates a plain-text summary of the provided content.', 'wp-ai-workshop' ),
+			'category'            => 'wp-ai-workshop',
 			// JSON Schema describing what callers must send. WordPress
 			// validates incoming requests against this *before*
 			// `execute_callback` runs — the callback never sees invalid data.
@@ -76,9 +76,9 @@ function wcpt_register_summarization_ability() {
 			'permission_callback' => function () {
 				return current_user_can( 'edit_posts' );
 			},
-			'execute_callback'    => 'wcpt_execute_summarization',
+			'execute_callback'    => 'wp_ai_workshop_execute_summarization',
 			// `show_in_rest => true` is what auto-creates the REST endpoint
-			// at /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run.
+			// at /wp-json/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run.
 			// `mcp.public => true` opts the ability into the MCP Adapter's
 			// default server so AI agents can discover and execute it. The
 			// value must be the boolean `true` — `1` or `'true'` do not opt in.
@@ -91,16 +91,16 @@ function wcpt_register_summarization_ability() {
 		)
 	);
 }
-add_action( 'wp_abilities_api_init', 'wcpt_register_summarization_ability' );
+add_action( 'wp_abilities_api_init', 'wp_ai_workshop_register_summarization_ability' );
 ```
 
 Setting `'show_in_rest' => true` in `meta` is what tells WordPress to auto-expose this ability over the REST API. As soon as the ability is registered, the following endpoint exists with no extra `register_rest_route()` call required:
 
 ```
-POST /wp-json/wp-abilities/v1/abilities/wcpt/summarization/run
+POST /wp-json/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run
 ```
 
-The route follows the pattern `/<namespace>/<ability-slug>/run` — so the `wcpt/summarization` ability becomes `/wp-abilities/v1/abilities/wcpt/summarization/run`. (For comparison, the reference summarization ability in the WordPress/ai plugin is registered as `ai/summarization` and lives at `/wp-abilities/v1/abilities/ai/summarization/run`.) We'll hit this endpoint from the browser console in a moment to confirm the ability works before we touch any plugin JavaScript.
+The route follows the pattern `/<namespace>/<ability-slug>/run` — so the `wp-ai-workshop/summarization` ability becomes `/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run`. (For comparison, the reference summarization ability in the WordPress/ai plugin is registered as `ai/summarization` and lives at `/wp-abilities/v1/abilities/ai/summarization/run`.) We'll hit this endpoint from the browser console in a moment to confirm the ability works before we touch any plugin JavaScript.
 
 ### Why `meta.mcp.public`?
 
@@ -113,7 +113,7 @@ Two gotchas worth flagging:
 
 ### Confirm It Registered
 
-Before testing the endpoint, sanity-check that WordPress sees the ability. Go to **Settings → AI → Abilities Explorer** — you should see your **WC Portugal 2026** category listed, with **Summarize Content** (`wcpt/summarization`) underneath it. If it's there, registration worked. If it's not, recheck the hooks (`wp_abilities_api_categories_init` and `wp_abilities_api_init`) before moving on.
+Before testing the endpoint, sanity-check that WordPress sees the ability. Go to **Settings → AI → Abilities Explorer** — you should see your **WordPress AI Workshop** category listed, with **Summarize Content** (`wp-ai-workshop/summarization`) underneath it. If it's there, registration worked. If it's not, recheck the hooks (`wp_abilities_api_categories_init` and `wp_abilities_api_init`) before moving on.
 
 ## The Execute Callback
 
@@ -121,13 +121,13 @@ Before testing the endpoint, sanity-check that WordPress sees the ability. Go to
 
 ```php
 /**
- * Execute callback for the wcpt/summarization ability.
+ * Execute callback for the wp-ai-workshop/summarization ability.
  *
  * @param array $input Validated input matching `input_schema`.
  *                     Keys: 'content' (string), 'length' (short|medium|long).
  * @return string|WP_Error Generated summary, or WP_Error on provider failure.
  */
-function wcpt_execute_summarization( $input ) {
+function wp_ai_workshop_execute_summarization( $input ) {
 	$content = $input['content'];
 	$length  = $input['length'] ?? 'medium';
 
@@ -165,7 +165,7 @@ No JavaScript file, no curl, no application password — let's confirm the abili
 
 ```js
 const summary = await wp.apiFetch( {
-    path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+    path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
     method: 'POST',
     data: {
         input: {

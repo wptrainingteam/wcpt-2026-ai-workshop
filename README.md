@@ -1,6 +1,6 @@
 # Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
 
-### WordCamp Portugal 2026
+### WordPress AI Building Blocks Workshop
 
 **Presented by Ryan Welcher & JuanMa Garrido — Developer Advocates, Automattic**
 
@@ -10,7 +10,7 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
 1. **WordPress Studio** — Download and install [WordPress Studio](https://developer.wordpress.com/studio/).
 
-2. **Create a site from the blueprint** — Download the [`blueprint.json`](https://raw.githubusercontent.com/wptrainingteam/wcpt-2026-ai-workshop/trunk/blueprint.json) file from this repository. In Studio, click **Add site → Start from a blueprint → Choose blueprint file** and select the downloaded file.
+2. **Create a site from the blueprint** — Download the [`blueprint.json`](https://raw.githubusercontent.com/wptrainingteam/wp-ai-workshop/trunk/blueprint.json) file from this repository. In Studio, click **Add site → Start from a blueprint → Choose blueprint file** and select the downloaded file.
 
    When the **Add a site** dialog appears, expand **Advanced settings** and set the WordPress version to **7.0-RC4** (listed under Beta & Nightly in the version dropdown). All other settings can be left as their defaults.
 
@@ -29,11 +29,11 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 4. **Install JS dependencies** in the workshop plugin directory:
 
    ```bash
-   cd /path/to/your/studio/site/wp-content/plugins/wcpt-2026-ai-workshop-trunk
+   cd /path/to/your/studio/site/wp-content/plugins/wp-ai-workshop-trunk
    npm install
    ```
 
-   > Studio installs the plugin from `trunk.zip`, so the directory ends up named `wcpt-2026-ai-workshop-trunk` (with the `-trunk` suffix). Use that path here.
+   > Studio installs the plugin from `trunk.zip`, so the directory ends up named `wp-ai-workshop-trunk` (with the `-trunk` suffix). Use that path here.
 
 5. **Configure an API key** in your Studio site's WordPress admin under **Settings → Connectors**. Any of the following will work:
    - [Anthropic](https://console.anthropic.com/) (Text generation with Claude)
@@ -48,10 +48,10 @@ To avoid wifi bottlenecks on the day, please complete this **before you arrive**
 
   ```bash
   cd /path/to/your/site/wp-content/plugins/
-  git clone https://github.com/wptrainingteam/wcpt-2026-ai-workshop
-  cd wcpt-2026-ai-workshop
+  git clone https://github.com/wptrainingteam/wp-ai-workshop
+  cd wp-ai-workshop
   npm install
-  wp plugin activate wcpt-2026-ai-workshop
+  wp plugin activate wp-ai-workshop
   ```
 
 ---
@@ -84,7 +84,7 @@ There are 4 required guided sections (1 tour + 3 coding) plus 3 optional section
 
 The plugin in the repo root is intentionally a scaffold — empty `includes/` and `src/` directories with just a plugin header. You'll fill it in as the workshop progresses. If you fall behind or want a clean start, the `code-reference/` folders contain the complete state of the code at the end of each coding section.
 
-> **Note on `code-reference/section-2/`:** this snapshot contains a temporary smoke-test function that Section 3 begins by deleting. If you copy section-2 forward as a starting point, remove `wcpt_test_ai_connection` (and its `add_action` call) before continuing.
+> **Note on `code-reference/section-2/`:** this snapshot contains a temporary smoke-test function that Section 3 begins by deleting. If you copy section-2 forward as a starting point, remove `wp_ai_workshop_test_ai_connection` (and its `add_action` call) before continuing.
 
 **Section ↔ code-reference mapping:**
 

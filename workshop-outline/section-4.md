@@ -31,7 +31,7 @@ Keep this running throughout the section. It will recompile whenever you save a 
  * new `@wordpress/...` import you add to `index.js` gets enqueued
  * automatically next time the build runs.
  */
-function wcpt_enqueue_editor_assets() {
+function wp_ai_workshop_enqueue_editor_assets() {
 	$asset_file = plugin_dir_path( __DIR__ ) . 'build/index.asset.php';
 	if ( ! file_exists( $asset_file ) ) {
 		return;
@@ -39,14 +39,14 @@ function wcpt_enqueue_editor_assets() {
 	$assets = require $asset_file;
 
 	wp_enqueue_script(
-		'wcpt-summarization',
+		'wp-ai-workshop-summarization',
 		plugins_url( 'build/index.js', __DIR__ ),
 		$assets['dependencies'],
 		$assets['version'],
 		true
 	);
 }
-add_action( 'enqueue_block_editor_assets', 'wcpt_enqueue_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'wp_ai_workshop_enqueue_editor_assets' );
 ```
 
 A regular `wp_enqueue_script()` — that's it. No script-module loader, no shim enqueues for `@wordpress/abilities`. We're calling the REST endpoint directly with `@wordpress/api-fetch`, which is a plain classic script and gets picked up by webpack like every other `@wordpress/*` import.
@@ -76,7 +76,7 @@ const SummarizationPlugin = () => {
 	);
 };
 
-registerPlugin( 'wcpt-summarization', { render: SummarizationPlugin } );
+registerPlugin( 'wp-ai-workshop-summarization', { render: SummarizationPlugin } );
 ```
 
 5. Open **Posts → Hello, Portugal!** (pre-seeded by the blueprint). You should see a **Generate AI Summary** button in the right sidebar. It doesn't do anything yet — let's fix that.
@@ -134,7 +134,7 @@ const SummarizationPlugin = () => {
 		// per our `output_schema`) comes back as the response body — so
 		// `apiFetch` resolves directly to the summary string.
 		const summary = await apiFetch( {
-			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+			path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
 			method: 'POST',
 			data: {
 				input: {
@@ -164,7 +164,7 @@ const SummarizationPlugin = () => {
 
 8. Back in the **Hello, Portugal!** post, click the button and check the browser console. You should see your summary logged. 🎉
 
-> **Watch the REST call.** Open the browser DevTools **Network** tab, filter on `abilities`, and click the button again. You'll see a `POST` to `/wp-json/wp-abilities/v1/abilities/wcpt/summarization/run` — the exact endpoint WordPress generated from the schema you registered in Section 3, carrying the `{ input: { content, length } }` payload. No bespoke REST route written; the Abilities API generated it from your `input_schema`.
+> **Watch the REST call.** Open the browser DevTools **Network** tab, filter on `abilities`, and click the button again. You'll see a `POST` to `/wp-json/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run` — the exact endpoint WordPress generated from the schema you registered in Section 3, carrying the `{ input: { content, length } }` payload. No bespoke REST route written; the Abilities API generated it from your `input_schema`.
 
 ## Insert the Summary Block
 
@@ -196,7 +196,7 @@ const SummarizationPlugin = () => {
 		const content = serialize( blocks );
 
 		const summary = await apiFetch( {
-			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+			path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
 			method: 'POST',
 			data: {
 				input: {
@@ -214,7 +214,7 @@ const SummarizationPlugin = () => {
 
 		const quoteBlock = createBlock(
 			'core/quote',
-			{ citation: 'WCPT AI Summarizer' },
+			{ citation: 'WordPress AI Summarizer' },
 			[ paragraphBlock ]
 		);
 
@@ -237,7 +237,7 @@ const SummarizationPlugin = () => {
 };
 ```
 
-10. Click the button. A quote block containing the AI-generated summary (with the citation "WCPT AI Summarizer") should appear at the top of your post content. 🔥🔥🔥
+10. Click the button. A quote block containing the AI-generated summary (with the citation "WordPress AI Summarizer") should appear at the top of your post content. 🔥🔥🔥
 
 ## Let the User Pick the Summary Length
 
@@ -278,7 +278,7 @@ const SummarizationPlugin = () => {
 		const content = serialize( blocks );
 
 		const summary = await apiFetch( {
-			path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+			path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
 			method: 'POST',
 			data: {
 				input: {
@@ -296,7 +296,7 @@ const SummarizationPlugin = () => {
 
 		const quoteBlock = createBlock(
 			'core/quote',
-			{ citation: 'WCPT AI Summarizer' },
+			{ citation: 'WordPress AI Summarizer' },
 			[ paragraphBlock ]
 		);
 
@@ -340,7 +340,7 @@ const SummarizationPlugin = () => {
 
 ```javascript
 const summary = await apiFetch( {
-	path: '/wp-abilities/v1/abilities/wcpt/summarization/run',
+	path: '/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run',
 	method: 'POST',
 	data: {
 		input: {
