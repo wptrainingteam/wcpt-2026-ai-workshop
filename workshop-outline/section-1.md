@@ -12,9 +12,9 @@ We're going to explore the Content Summarization experiment it ships with, see i
   - find **Enable AI**, and toggle it on.
   - find **Content Summarization**, and toggle it on.
 
-3. Go to **Posts → Hello, Portugal!**
+3. Go to **Posts → Hello, WordPress!**
 
-> If you're not using the blueprint, this post won't be pre-seeded — create a new post titled **Hello, Portugal!** with a few paragraphs of placeholder content before continuing. Any text will do; we just need something for the AI to summarize.
+> If you're not using the blueprint, this post won't be pre-seeded — create a new post titled **Hello, WordPress!** with a few paragraphs of placeholder content before continuing. Any text will do; we just need something for the AI to summarize.
 
 4. In the right sidebar, find the **Summary** panel and click **Generate AI Summary**.
 
@@ -62,7 +62,7 @@ Because the SDK owns the public surface, the same builder call works regardless 
 A typical chain:
 
 ```php
-$summary = wp_ai_client_prompt( 'List three things Portugal is famous for.' )
+$summary = wp_ai_client_prompt( 'List three things WordPress is famous for.' )
     ->using_system_instruction( 'Respond in a single short sentence per item, no preamble.' )
     ->using_temperature( 0.4 )
     ->using_max_tokens( 200 )

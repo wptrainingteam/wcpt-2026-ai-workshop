@@ -79,7 +79,7 @@ const SummarizationPlugin = () => {
 registerPlugin( 'wp-ai-workshop-summarization', { render: SummarizationPlugin } );
 ```
 
-5. Open **Posts → Hello, Portugal!** (pre-seeded by the blueprint). You should see a **Generate AI Summary** button in the right sidebar. It doesn't do anything yet — let's fix that.
+5. Open **Posts → Hello, WordPress!** (pre-seeded by the blueprint). You should see a **Generate AI Summary** button in the right sidebar. It doesn't do anything yet — let's fix that.
 
 ## Get the Post Content
 
@@ -162,7 +162,7 @@ const SummarizationPlugin = () => {
 };
 ```
 
-8. Back in the **Hello, Portugal!** post, click the button and check the browser console. You should see your summary logged. 🎉
+8. Back in the **Hello, WordPress!** post, click the button and check the browser console. You should see your summary logged. 🎉
 
 > **Watch the REST call.** Open the browser DevTools **Network** tab, filter on `abilities`, and click the button again. You'll see a `POST` to `/wp-json/wp-abilities/v1/abilities/wp-ai-workshop/summarization/run` — the exact endpoint WordPress generated from the schema you registered in Section 3, carrying the `{ input: { content, length } }` payload. No bespoke REST route written; the Abilities API generated it from your `input_schema`.
 
