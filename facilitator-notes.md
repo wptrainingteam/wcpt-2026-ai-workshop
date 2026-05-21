@@ -1,8 +1,10 @@
-# Facilitator Notes — WordPress AI Building Blocks Workshop
+# Facilitator Notes
 
 **Session:** Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
-**Duration:** 3 hours 30 minutes | Saturday 3:00 PM WEST
+**Duration:** 3 hours 30 minutes (90 min instruction + 2 hr optional hackathon)
 **Audience:** Intermediate–Advanced WordPress plugin developers
+
+> **Event-specific configuration:** this file is generic. See the *Adapting This Workshop for Your Event* section of `README.md` for the four places that need per-event tweaks (site `blogname`, demo post content, category label, optional title-line branding).
 
 ---
 

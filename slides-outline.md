@@ -1,13 +1,12 @@
 # Slides Outline — Stop Doing It Yourself
 
-### WordPress AI Building Blocks Workshop
+> **Per-event branding:** the title slide below is generic. Add an event-specific subtitle (e.g. `WordCamp Toronto 2027`) on the line beneath the session title if delivering this at a branded event. See `README.md` § *Adapting This Workshop for Your Event*.
 
 ---
 
 ## Title Slide
 
 - Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
-- WordPress AI Building Blocks Workshop | Saturday 3:00 PM
 - Ryan Welcher — Developer Advocate, Automattic
 - JuanMa Garrido — Developer Advocate, Automattic
 

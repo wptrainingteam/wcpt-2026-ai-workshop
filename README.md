@@ -1,8 +1,6 @@
 # Stop Doing It Yourself: Building AI-Powered Admin Tools with the WordPress AI API
 
-### WordPress AI Building Blocks Workshop
-
-**Presented by Ryan Welcher & JuanMa Garrido — Developer Advocates, Automattic**
+A hands-on workshop covering the WordPress 7.0 AI Building Blocks: the PHP AI Client, the Abilities API, and MCP. Designed for delivery as a half-day session at WordCamps, meetups, and similar events.
 
 ## Pre-Workshop Setup Checklist
 
@@ -97,5 +95,23 @@ The plugin in the repo root is intentionally a scaffold — empty `includes/` an
 | 5 — *Optional* `@wordpress/abilities` rebuild | `code-reference/section-5/`   | Same feature, script-module + abilities client  |
 | 6 — *Optional* MCP Demo                       | _no code_                     | Presenter-led demo                              |
 | 7 — *Optional* Hackathon                      | _self-directed_               | Build your own ability                          |
+
+## Adapting This Workshop for Your Event
+
+The repository ships generic — no event-specific branding, no calendar dates, no city references — so it can be delivered as-is. If you want to brand a delivery for a specific WordCamp / meetup / company event, here is the short list of places to tweak. Everything below is optional.
+
+1. **Site banner (`blueprint.json`)** — set the `blogname` option (currently `WordPress AI Workshop`) to whatever you want attendees to see at the top of their Studio site. This is the most visible piece of per-event branding.
+
+2. **Demo post content (`blueprint.json`)** — the pre-seeded `Hello, WordPress!` post is a generic essay about WordPress. Swap it for something local — a few paragraphs about your city, your meetup, or a topic your audience cares about — if you want the summarization output to feel grounded in the moment. Keep the title as-is or rename it; just remember to update the post-title references in `workshop-outline/section-1.md` and `workshop-outline/section-4.md` if you rename.
+
+3. **Category label (`includes/summarizer.php` in Section 3)** — `WordPress AI Workshop` is the label that shows up in **Settings → AI → Abilities Explorer**. Renaming it to your event name is a nice touch but purely cosmetic.
+
+4. **Headings in this README, `facilitator-notes.md`, and `slides-outline.md`** — the title line at the top of each file is intentionally generic. If you want event branding on the title slide / facilitator handout / participant README, add a subheading (e.g. `### Delivered at WordCamp Toronto 2027`) under the existing top-level heading.
+
+5. **Per-event git workflow (suggested)** — keep `trunk` as the canonical generic version. For each delivery, create a tag (e.g. `event/wcyyz-2027`) or branch off `trunk` and apply the four tweaks above. That keeps the canonical repo unbranded and gives you a frozen snapshot of exactly what you delivered.
+
+Nothing in the workshop logic depends on any of this — function names, ability namespaces, REST paths, and JS handles all use the neutral `wp-ai-workshop` / `wp_ai_workshop_` prefix.
+
+---
 
 Let's go! → [Section 1: Tour the AI Experiments Plugin](./workshop-outline/section-1.md)
