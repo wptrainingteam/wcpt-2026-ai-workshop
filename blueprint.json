@@ -1,46 +1,46 @@
 {
-  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
-  "preferredVersions": {
-    "php": "8.2",
-    "wp": "beta"
-  },
-  "features": {
-    "networking": true
-  },
-  "plugins": [
-    "ai-provider-for-google",
-    "ai-provider-for-anthropic",
-    "ai-provider-for-openai",
-    "ai"
-  ],
-  "extraLibraries": ["wp-cli"],
-  "login": true,
-  "landingPage": "/wp-admin/post.php?post=1&action=edit",
-  "steps": [
-    {
-      "step": "installPlugin",
-      "pluginData": {
-        "resource": "url",
-        "url": "https://github.com/wptrainingteam/wp-ai-workshop/archive/refs/heads/trunk.zip"
-      }
-    },
-    {
-      "step": "activatePlugin",
-      "pluginPath": "wp-ai-workshop-trunk/plugin.php"
-    },
-    {
-      "step": "activateTheme",
-      "themeFolderName": "twentytwentyfive"
-    },
-    {
-      "step": "setSiteOptions",
-      "options": {
-        "blogname": "WordPress AI Workshop"
-      }
-    },
-    {
-      "step": "wp-cli",
-      "command": "wp post update 1 --post_title='Hello, WordPress!' --post_content='<!-- wp:paragraph --><p>WordPress was first released in 2003 by Matt Mullenweg and Mike Little as a fork of an earlier blogging tool called b2/cafelog. What started as a small project to give people a better way to publish on the web has grown into the most widely used content management system in the world, powering a substantial share of all sites that run on a recognizable platform. Its stated goal from day one has been to democratize publishing — to make it possible for anyone, regardless of technical background, to share what they create with anyone who wants to read, watch, or listen.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress is open source software, released under the GNU General Public License. That licensing choice has shaped almost everything about how the project evolved: anyone can read the code, modify it, redistribute it, or build a business on top of it without asking permission. The GPL is sometimes called a viral license because derivative work inherits the same freedoms. For WordPress, the practical effect is an enormous ecosystem of themes, plugins, hosts, and agencies — all built on a shared, freely available foundation that no single company controls.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The plugin ecosystem is one of the largest in any software platform. The official WordPress.org plugin directory hosts tens of thousands of free plugins covering everything from contact forms and SEO to full e-commerce systems like WooCommerce. The theme directory contains thousands of free themes, and commercial marketplaces add many more on top of that. The breadth means a non-developer can usually find an existing extension for whatever they need, while developers can ship a working site in a fraction of the time it would take to build everything from scratch.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>For most of its first fifteen years, WordPress edited content through a single text area built around a rich-text widget called TinyMCE. In 2018, WordPress introduced the block editor — code-named Gutenberg — which replaced that text area with a modular interface where each piece of content (paragraph, image, gallery, button) is its own block with its own attributes and controls. The shift was contentious at the time and remains the most consequential change to the editor in the project&#8217;s history. Today the block editor is the default writing experience and the foundation for almost everything WordPress builds next.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The block editor unlocked a second major phase: block themes and full site editing. Where classic themes built layouts in PHP templates that only developers could touch, block themes describe the entire site — headers, footers, archive pages, single posts, even global style tokens — using the same blocks site owners already use to write content. The result is a visual editor for the whole site, not just the post body. For developers, it means writing JSON and HTML markup for many tasks that used to require PHP, and a much shorter path from design to working site.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress development happens in the open. Decisions are debated on the Make WordPress blogs, in weekly meetings on Slack, and through public proposals on GitHub. Anyone who contributes patches, designs, translations, documentation, or accessibility audits can become a recognized contributor. Releases follow a roughly four-month cadence and ship with detailed release notes, a field guide for developers, and a curated set of contributor credits. The open process is slower than a closed company would be, but it produces software that thousands of independent businesses can trust to stay on for years.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress sustains a global economy of work. Independent freelancers, design agencies, hosting providers, plugin and theme companies, online education platforms, and full-time core contributors all build their livelihoods around the project. Conferences called WordCamps run in cities around the world every year — some small and volunteer-led, some attended by thousands — and serve as the social fabric of the community. The combination of free software, low cost of entry, and a steady release schedule has made WordPress one of the most durable platforms for building a career on the open web.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The next chapter for WordPress is artificial intelligence. WordPress 7.0 ships a unified PHP AI client that lets developers talk to providers like Anthropic, OpenAI, and Google through a single API; an Abilities API for defining AI-callable units of functionality with typed schemas; and an opt-in to expose those abilities to AI agents through the Model Context Protocol. The pattern is the same one that made plugins powerful in the first place: define a stable interface, let anyone implement against it, and trust the ecosystem to do the rest. The post you are reading is itself the kind of content the summarizer is about to read.</p><!-- /wp:paragraph -->'"
-    }
-  ]
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"preferredVersions": {
+		"php": "8.2",
+		"wp": "latest"
+	},
+	"features": {
+		"networking": true
+	},
+	"plugins": [
+		"ai-provider-for-google",
+		"ai-provider-for-anthropic",
+		"ai-provider-for-openai",
+		"ai"
+	],
+	"extraLibraries": [ "wp-cli" ],
+	"login": true,
+	"landingPage": "/wp-admin/post.php?post=1&action=edit",
+	"steps": [
+		{
+			"step": "installPlugin",
+			"pluginData": {
+				"resource": "url",
+				"url": "https://github.com/wptrainingteam/wp-ai-workshop/archive/refs/heads/trunk.zip"
+			}
+		},
+		{
+			"step": "activatePlugin",
+			"pluginPath": "wp-ai-workshop-trunk/plugin.php"
+		},
+		{
+			"step": "activateTheme",
+			"themeFolderName": "twentytwentyfive"
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"blogname": "WordPress AI Workshop"
+			}
+		},
+		{
+			"step": "wp-cli",
+			"command": "wp post update 1 --post_title='Hello, WordPress!' --post_content='<!-- wp:paragraph --><p>WordPress was first released in 2003 by Matt Mullenweg and Mike Little as a fork of an earlier blogging tool called b2/cafelog. What started as a small project to give people a better way to publish on the web has grown into the most widely used content management system in the world, powering a substantial share of all sites that run on a recognizable platform. Its stated goal from day one has been to democratize publishing — to make it possible for anyone, regardless of technical background, to share what they create with anyone who wants to read, watch, or listen.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress is open source software, released under the GNU General Public License. That licensing choice has shaped almost everything about how the project evolved: anyone can read the code, modify it, redistribute it, or build a business on top of it without asking permission. The GPL is sometimes called a viral license because derivative work inherits the same freedoms. For WordPress, the practical effect is an enormous ecosystem of themes, plugins, hosts, and agencies — all built on a shared, freely available foundation that no single company controls.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The plugin ecosystem is one of the largest in any software platform. The official WordPress.org plugin directory hosts tens of thousands of free plugins covering everything from contact forms and SEO to full e-commerce systems like WooCommerce. The theme directory contains thousands of free themes, and commercial marketplaces add many more on top of that. The breadth means a non-developer can usually find an existing extension for whatever they need, while developers can ship a working site in a fraction of the time it would take to build everything from scratch.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>For most of its first fifteen years, WordPress edited content through a single text area built around a rich-text widget called TinyMCE. In 2018, WordPress introduced the block editor — code-named Gutenberg — which replaced that text area with a modular interface where each piece of content (paragraph, image, gallery, button) is its own block with its own attributes and controls. The shift was contentious at the time and remains the most consequential change to the editor in the project&#8217;s history. Today the block editor is the default writing experience and the foundation for almost everything WordPress builds next.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The block editor unlocked a second major phase: block themes and full site editing. Where classic themes built layouts in PHP templates that only developers could touch, block themes describe the entire site — headers, footers, archive pages, single posts, even global style tokens — using the same blocks site owners already use to write content. The result is a visual editor for the whole site, not just the post body. For developers, it means writing JSON and HTML markup for many tasks that used to require PHP, and a much shorter path from design to working site.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress development happens in the open. Decisions are debated on the Make WordPress blogs, in weekly meetings on Slack, and through public proposals on GitHub. Anyone who contributes patches, designs, translations, documentation, or accessibility audits can become a recognized contributor. Releases follow a roughly four-month cadence and ship with detailed release notes, a field guide for developers, and a curated set of contributor credits. The open process is slower than a closed company would be, but it produces software that thousands of independent businesses can trust to stay on for years.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>WordPress sustains a global economy of work. Independent freelancers, design agencies, hosting providers, plugin and theme companies, online education platforms, and full-time core contributors all build their livelihoods around the project. Conferences called WordCamps run in cities around the world every year — some small and volunteer-led, some attended by thousands — and serve as the social fabric of the community. The combination of free software, low cost of entry, and a steady release schedule has made WordPress one of the most durable platforms for building a career on the open web.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>The next chapter for WordPress is artificial intelligence. WordPress 7.0 ships a unified PHP AI client that lets developers talk to providers like Anthropic, OpenAI, and Google through a single API; an Abilities API for defining AI-callable units of functionality with typed schemas; and an opt-in to expose those abilities to AI agents through the Model Context Protocol. The pattern is the same one that made plugins powerful in the first place: define a stable interface, let anyone implement against it, and trust the ecosystem to do the rest. The post you are reading is itself the kind of content the summarizer is about to read.</p><!-- /wp:paragraph -->'"
+		}
+	]
 }
