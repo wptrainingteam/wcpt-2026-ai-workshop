@@ -57,7 +57,7 @@ A regular `wp_enqueue_script()` — that's it. No script-module loader, no shim 
 
 We'll use the [`registerPlugin`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-plugins/#registerplugin) API and the `PluginPostStatusInfo` SlotFill to add our button to the post sidebar.
 
-4. Add the imports and register the plugin. We're front-loading every import we'll need across the rest of the section — `SelectControl` in particular won't get used until the length-picker step near the end, so don't worry if your linter complains about an unused import for a few minutes.
+4. Add the imports and register the plugin. We're front-loading every import we'll need across the rest of the section — `SelectControl` and `VStack` in particular won't get used until the length-picker step near the end, so don't worry if your linter complains about an unused import for a few minutes.
 
 ```javascript
 import { registerPlugin } from '@wordpress/plugins';
@@ -65,7 +65,7 @@ import { PluginPostStatusInfo } from '@wordpress/editor';
 import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { serialize, createBlock } from '@wordpress/blocks';
-import { Button, SelectControl } from '@wordpress/components';
+import { Button, SelectControl, __experimentalVStack as VStack } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
 const SummarizationPlugin = () => {
@@ -247,7 +247,7 @@ We'll do this in two passes: render the control first, then wire it up. Splittin
 
 ### Render the Control
 
-11. Add a `length` state and render the dropdown above the button. We already imported `SelectControl` at the top of the file:
+11. Add a `length` state and render the dropdown above the button. We already imported `SelectControl` and `VStack` at the top of the file. Wrapping both controls in a `VStack` stacks them vertically and lets them fill the panel width:
 
 ```javascript
 const SummarizationPlugin = () => {
@@ -306,27 +306,30 @@ const SummarizationPlugin = () => {
 	};
 
 	return (
-		<PluginPostStatusInfo>
-			<SelectControl
-				label="Summary length"
-				value={ length }
-				// Disable the dropdown mid-request so the user can't change
-				// length while a generation is already in flight.
-				disabled={ isLoading }
-				options={ [
-					{ label: 'Short', value: 'short' },
-					{ label: 'Medium', value: 'medium' },
-					{ label: 'Long', value: 'long' },
-				] }
-				onChange={ setLength }
-			/>
-			<Button
-				variant="primary"
-				onClick={ handleClick }
-				isBusy={ isLoading }
-			>
-				{ isLoading ? 'Generating…' : 'Generate AI Summary' }
-			</Button>
+		<PluginPostStatusInfo className="wp-ai-workshop-summarization-panel">
+			<VStack spacing={ 3 } style={ { width: '100%' } }>
+				<SelectControl
+					label="Summary length"
+					value={ length }
+					// Disable the dropdown mid-request so the user can't change
+					// length while a generation is already in flight.
+					disabled={ isLoading }
+					options={ [
+						{ label: 'Short', value: 'short' },
+						{ label: 'Medium', value: 'medium' },
+						{ label: 'Long', value: 'long' },
+					] }
+					onChange={ setLength }
+				/>
+				<Button
+					variant="primary"
+					onClick={ handleClick }
+					isBusy={ isLoading }
+					style={ { justifyContent: 'center', width: '100%' } }
+				>
+					{ isLoading ? 'Generating…' : 'Generate AI Summary' }
+				</Button>
+			</VStack>
 		</PluginPostStatusInfo>
 	);
 };

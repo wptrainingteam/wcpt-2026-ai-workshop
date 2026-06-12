@@ -75,7 +75,7 @@ import { PluginPostStatusInfo } from '@wordpress/editor';
 import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { serialize, createBlock } from '@wordpress/blocks';
-import { Button, SelectControl } from '@wordpress/components';
+import { Button, SelectControl, __experimentalVStack as VStack } from '@wordpress/components';
 
 // `@wordpress/abilities` ships only as a runtime ES module via the WordPress
 // script module loader — it's not available as a classic script and webpack
@@ -139,25 +139,30 @@ const SummarizationPlugin = () => {
 	};
 
 	return (
-		<PluginPostStatusInfo>
-			<SelectControl
-				label="Summary length"
-				value={ length }
-				disabled={ isLoading }
-				options={ [
-					{ label: 'Short', value: 'short' },
-					{ label: 'Medium', value: 'medium' },
-					{ label: 'Long', value: 'long' },
-				] }
-				onChange={ setLength }
-			/>
-			<Button
-				variant="primary"
-				onClick={ handleClick }
-				isBusy={ isLoading }
-			>
-				{ isLoading ? 'Generating…' : 'Generate AI Summary' }
-			</Button>
+		<PluginPostStatusInfo className="wp-ai-workshop-summarization-panel">
+			<VStack spacing={ 3 } style={ { width: '100%' } }>
+				<SelectControl
+					label="Summary length"
+					value={ length }
+					// Disable the dropdown mid-request so the user can't change
+					// length while a generation is already in flight.
+					disabled={ isLoading }
+					options={ [
+						{ label: 'Short', value: 'short' },
+						{ label: 'Medium', value: 'medium' },
+						{ label: 'Long', value: 'long' },
+					] }
+					onChange={ setLength }
+				/>
+				<Button
+					variant="primary"
+					onClick={ handleClick }
+					isBusy={ isLoading }
+					style={ { justifyContent: 'center', width: '100%' } }
+				>
+					{ isLoading ? 'Generating…' : 'Generate AI Summary' }
+				</Button>
+			</VStack>
 		</PluginPostStatusInfo>
 	);
 };

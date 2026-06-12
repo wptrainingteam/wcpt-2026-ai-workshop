@@ -132,7 +132,9 @@ function wp_ai_workshop_enqueue_script_modules() {
 	}
 	$assets = require $asset_file;
 
-	// Should be removed once 7.0 is released.
+	// Required as of WordPress 7.0 RC4 — the script-module loader does not
+	// auto-register these yet. Re-test after each RC; remove these two lines
+	// once they're registered automatically.
 	wp_enqueue_script_module( '@wordpress/core-abilities' );
 	wp_enqueue_script_module( '@wordpress/abilities' );
 
